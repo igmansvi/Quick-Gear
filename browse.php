@@ -1,4 +1,4 @@
-<?php require_once './data/products.php'; ?>
+<?php require_once './data/products_data.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,84 +14,88 @@
     <?php include './components/header.php'; ?>
 
     <main class="container mx-auto px-4 py-8">
-        <!-- Enhanced Search and Filter Section with smoother transitions and shadow improvements -->
-        <div
-            class="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transition-all duration-500 hover:shadow-2xl">
-            <div class="flex flex-col gap-6">
-                <!-- Title and Search Bar -->
-                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                    <h2 class="text-2xl font-bold text-gray-800">Browse Equipment</h2>
-                    <div class="w-full md:w-1/3 relative">
-                        <input type="text" id="search" placeholder="Search equipment..." class="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl 
-                                   focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                                   pl-12 text-gray-600 placeholder-gray-400">
-                        <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+        <?php if (empty($products)): ?>
+            <p class="text-center text-red-500">No products found. Please check back later.</p>
+        <?php else: ?>
+            <!-- Enhanced Search and Filter Section with smoother transitions and shadow improvements -->
+            <div
+                class="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transition-all duration-500 hover:shadow-2xl">
+                <div class="flex flex-col gap-6">
+                    <!-- Title and Search Bar -->
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <h2 class="text-2xl font-bold text-gray-800">Browse Equipment</h2>
+                        <div class="w-full md:w-1/3 relative">
+                            <input type="text" id="search" placeholder="Search equipment..." class="w-full px-5 py-3 bg-gray-50 border border-gray-200 rounded-xl 
+                                       focus:ring-2 focus:ring-blue-500 focus:border-transparent
+                                       pl-12 text-gray-600 placeholder-gray-400">
+                            <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
                     </div>
+
+                    <!-- Enhanced Filters -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                            <select id="category-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                       appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
+                                <option value="">All Categories</option>
+                                <?php foreach ($categories as $key => $category): ?>
+                                    <option value="<?php echo $key; ?>">
+                                        <?php echo $category['name']; ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <i
+                                class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
+                        </div>
+
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Availability</label>
+                            <select id="availability-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                       appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
+                                <option value="">All Status</option>
+                                <option value="available">Available Now</option>
+                                <option value="coming_soon">Coming Soon</option>
+                            </select>
+                            <i
+                                class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
+                        </div>
+
+                        <div class="relative">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                            <select id="price-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
+                                       appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
+                                <option value="">Any Price</option>
+                                <option value="0-500">Under ₹500/day</option>
+                                <option value="501-2000">₹501 - ₹2000/day</option>
+                                <option value="2001+">Above ₹2000/day</option>
+                            </select>
+                            <i
+                                class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Active Filters -->
+                    <div class="flex flex-wrap gap-2 min-h-[2rem]" id="active-filters"></div>
                 </div>
-
-                <!-- Enhanced Filters -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                        <select id="category-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
-                                   appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
-                            <option value="">All Categories</option>
-                            <?php foreach ($categories as $key => $category): ?>
-                                <option value="<?php echo $key; ?>">
-                                    <?php echo $category['name']; ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                        <i
-                            class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
-                    </div>
-
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Availability</label>
-                        <select id="availability-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
-                                   appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
-                            <option value="">All Status</option>
-                            <option value="available">Available Now</option>
-                            <option value="coming_soon">Coming Soon</option>
-                        </select>
-                        <i
-                            class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
-                    </div>
-
-                    <div class="relative">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
-                        <select id="price-filter" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl
-                                   appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
-                            <option value="">Any Price</option>
-                            <option value="0-500">Under ₹500/day</option>
-                            <option value="501-2000">₹501 - ₹2000/day</option>
-                            <option value="2001+">Above ₹2000/day</option>
-                        </select>
-                        <i
-                            class="fas fa-chevron-down absolute right-4 top-[calc(50%+0.5rem)] text-gray-400 pointer-events-none"></i>
-                    </div>
-                </div>
-
-                <!-- Active Filters -->
-                <div class="flex flex-wrap gap-2 min-h-[2rem]" id="active-filters"></div>
             </div>
-        </div>
 
-        <!-- Replace the static product grid with a container for dynamic rendering -->
-        <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamic products will render here -->
-        </div>
+            <!-- Replace the static product grid with a container for dynamic rendering -->
+            <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Dynamic products will render here -->
+            </div>
 
-        <!-- Improved Pagination -->
-        <div class="mt-8 flex justify-center">
-            <nav class="inline-flex rounded-lg shadow-sm bg-white">
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Previous</button>
-                <button class="px-4 py-2 border rounded-lg bg-blue-600 text-white">1</button>
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">2</button>
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">3</button>
-                <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Next</button>
-            </nav>
-        </div>
+            <!-- Improved Pagination -->
+            <div class="mt-8 flex justify-center">
+                <nav class="inline-flex rounded-lg shadow-sm bg-white">
+                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Previous</button>
+                    <button class="px-4 py-2 border rounded-lg bg-blue-600 text-white">1</button>
+                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">2</button>
+                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">3</button>
+                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Next</button>
+                </nav>
+            </div>
+        <?php endif; ?>
     </main>
 
     <?php include './components/footer.php'; ?>
@@ -125,7 +129,9 @@
                         </div>
                         <p class="text-gray-600 text-sm">${product.description}</p>
                         <div class="mt-3 flex flex-wrap gap-2">
-                            ${product.features.map(feature => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${feature}</span>`).join('')}
+                            ${(typeof product.features === 'string' ? product.features.split(/\s*,\s*/) : product.features)
+                    .map(feature => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${feature}</span>`)
+                    .join('')}
                         </div>
                         <div class="mt-4 flex justify-between items-end">
                             <div>

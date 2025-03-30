@@ -1,10 +1,9 @@
 <?php
-require_once './data/products.php'; // to use categories if needed
+require_once './data/products_data.php'; // now provides $pdo and $products
 include './components/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Process form submission (backend logic to add product can be added here)
-    // For now, simply display submitted data.
+    // Process form submission
     $name = trim($_POST['name'] ?? '');
     $category = trim($_POST['category'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -14,7 +13,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = trim($_POST['status'] ?? '');
     $image = trim($_POST['image'] ?? '');
     $features = array_map('trim', explode(',', $_POST['features'] ?? ''));
-    $success = true;
+
+    try {
+        $stmt = $pdo->prepare(
+            "INSERT INTO list_item (name, category, description, price, price_type, deposit, status, image, features) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+        );
+        $stmt->execute([
+            $name,
+            $category,
+            $description,
+            $price,
+            $price_type,
+            $deposit,
+            $status,
+            $image,
+            implode(', ', $features)
+        ]);
+        $success = true;
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        $error_message = "Unable to add listing. Please try again later.";
+    }
 }
 ?>
 <main class="container mx-auto py-8">

@@ -1,4 +1,4 @@
-<?php require_once './data/products.php'; ?>
+<?php require_once './data/products_data.php'; ?>
 <div class="hero-section">
     <div class="hero-content">
         <h1 class="hero-title">Renting Made Easy</h1>

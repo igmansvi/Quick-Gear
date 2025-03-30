@@ -1,5 +1,5 @@
 <?php
-require_once './data/products.php';
+require_once './data/products_data.php';
 include './components/header.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -12,6 +12,7 @@ foreach ($products as $p) {
 }
 
 if (!$product):
+    error_log("Product with ID $id not found.");
     ?>
     <main class="container mx-auto py-8">
         <p class="text-center text-red-500">Product not found.</p>
@@ -37,7 +38,9 @@ if (!$product):
                         <p class="text-lg"><span class="font-bold text-gray-800">Deposit:</span> <span
                                 class="text-blue-600">₹<?php echo number_format($product['deposit']); ?></span></p>
                         <p class="text-lg"><span class="font-bold text-gray-800">Features:</span> <span
-                                class="text-gray-600"><?php echo implode(', ', $product['features']); ?></span></p>
+                                class="text-gray-600">
+                                <?php echo is_array($product['features']) ? implode(', ', $product['features']) : $product['features']; ?>
+                            </span></p>
                     </div>
                 </div>
             </div>
