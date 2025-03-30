@@ -23,18 +23,19 @@ try {
     $stmt = $pdo->query('SELECT * FROM products');
     $products = $stmt->fetchAll();
 } catch (PDOException $e) {
-    error_log($e->getMessage());
-    $products = [];
+    error_log("Products query error: " . $e->getMessage());
+    $products = []; // Fallback: empty array
 }
 
-// New code block to load newly listed items from list_item table
 try {
     $stmt = $pdo->query('SELECT * FROM list_item');
     $listItems = $stmt->fetchAll();
-    // Merge list items with products
-    $products = array_merge($products, $listItems);
+    // Merge list items with products only if list items were fetched
+    if (is_array($listItems)) {
+        $products = array_merge($products, $listItems);
+    }
 } catch (PDOException $e) {
-    error_log($e->getMessage());
+    error_log("List items query error: " . $e->getMessage());
     // If query fails, simply continue with products from products table
 }
 

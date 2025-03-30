@@ -56,6 +56,16 @@ CREATE TABLE IF NOT EXISTS rent_item (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Add foreign key constraint for rent_item table
+ALTER TABLE rent_item
+ADD CONSTRAINT fk_rent_item_product
+FOREIGN KEY (product_id) REFERENCES products(id);
+
+-- Add foreign key constraint for bookings table
+ALTER TABLE bookings
+ADD CONSTRAINT fk_bookings_product
+FOREIGN KEY (product_id) REFERENCES products(id);
+
 -- Create list_item table to store listing items from list_item.php
 CREATE TABLE IF NOT EXISTS list_item (
     id INT AUTO_INCREMENT PRIMARY KEY,

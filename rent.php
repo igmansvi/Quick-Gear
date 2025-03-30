@@ -1,15 +1,13 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Connect without a database first
-    $conn = new mysqli('localhost', 'root', '');
-    if ($conn->connect_error) {
-        error_log('Database connection error: ' . $conn->connect_error);
-        exit('Database connection error');
-    }
-    // Create the database if it doesn't exist and select it
-    if (!$conn->select_db('quick-gear-db')) { // updated name
-        $conn->query("CREATE DATABASE IF NOT EXISTS `quick-gear-db`"); // updated name
-        $conn->select_db('quick-gear-db'); // updated name
+    // Removed MySQLi connection and database creation logic
+    require_once './data/products_data.php'; // now provides $pdo
+
+    // Addition: Check for valid PDO instance to avoid database connection issues
+    if (!isset($pdo) || !($pdo instanceof PDO)) {
+        error_log('PDO connection issue: PDO instance not found.');
+        echo 'error';
+        exit();
     }
 
     // Sanitize and retrieve form data
@@ -21,22 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_date = $_POST['end_date'] ?? '';
     $message = $_POST['message'] ?? '';
 
-    // Prepared statement for secure insert (updated table name)
-    $stmt = $conn->prepare("INSERT INTO `rent_item` (product_id, full_name, email, phone, start_date, end_date, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
-    if (!$stmt) {
-        error_log("Prepare failed: " . $conn->error);
-        exit('Prepare failed');
-    }
-    $stmt->bind_param("issssss", $product_id, $full_name, $email, $phone, $start_date, $end_date, $message);
-
-    if ($stmt->execute()) {
+    // Use PDO prepared statement for secure insert
+    $stmt = $pdo->prepare("INSERT INTO `rent_item` (product_id, full_name, email, phone, start_date, end_date, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    try {
+        $stmt->execute([$product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
         echo 'success';
-    } else {
-        error_log("Insert error: " . $stmt->error);
+    } catch (PDOException $e) {
+        error_log("Insert error: " . $e->getMessage());
         echo 'error';
     }
-    $stmt->close();
-    $conn->close();
     exit();
 }
 
