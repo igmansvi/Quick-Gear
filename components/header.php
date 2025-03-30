@@ -8,17 +8,17 @@
 
     <!-- Navigation in center -->
     <nav class="flex gap-5">
-        <a href="browse.php"
+        <a id="nav-browse" href="browse.php"
             class="nav-link bg-white/10 text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-white/20 hover:-translate-y-0.5 hover:shadow-md flex items-center">
             <i class="fas fa-search mr-2 text-[#a8dadc]"></i>
             Browse
         </a>
-        <a href="index.php"
+        <a id="nav-home" href="index.php"
             class="nav-link bg-white/20 text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-white/30 hover:-translate-y-0.5 shadow-lg shadow-white/10 flex items-center">
             <i class="fas fa-home mr-2 text-[#a8dadc]"></i>
             Home
         </a>
-        <a href="bookings.php"
+        <a id="nav-bookings" href="bookings.php"
             class="nav-link bg-white/10 text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-white/20 hover:-translate-y-0.5 hover:shadow-md flex items-center">
             <i class="fas fa-calendar-alt mr-2 text-[#a8dadc]"></i>
             Bookings
@@ -26,7 +26,7 @@
     </nav>
 
     <!-- Login on right -->
-    <a href="login.php"
+    <a id="nav-login" href="login.php"
         class="login-btn relative bg-[#3a86ff] text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a8dadc] hover:text-[#2b2d42] hover:-translate-y-0.5 hover:shadow-lg flex items-center gap-2 overflow-hidden group">
         <span class="relative z-10">User</span>
         <span

@@ -81,7 +81,7 @@
 </div>
 
 <!-- How It Works Section -->
-<div class="how-it-works-section py-12">
+<div id="how-it-works" class="how-it-works-section py-12">
     <div class="container mx-auto px-6">
         <div class="section-header text-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">How It Works</h2>
@@ -117,7 +117,7 @@
 </div>
 
 <!-- FAQs Section -->
-<div class="faqs-section bg-gray-100 py-12">
+<div id="faqs" class="faqs-section bg-gray-100 py-12">
     <div class="container mx-auto px-6">
         <div class="section-header text-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Frequently Asked Questions</h2>

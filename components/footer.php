@@ -40,21 +40,23 @@
                     <h3 class="text-xl font-bold mb-4 text-accent border-b border-gray-700 pb-1">Quick Links</h3>
                     <ul class="space-y-2 text-xs">
                         <li>
-                            <a href="#" class="text-gray-300 hover:text-accent transition-all flex items-center group">
+                            <a id="footer-home" href="index.php"
+                                class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                                 Home
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-300 hover:text-accent transition-all flex items-center group">
+                            <a id="footer-browse" href="browse.php"
+                                class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                                 Browse Equipment
                             </a>
                         </li>
                         <li>
-                            <a href="bookings.php"
+                            <a id="footer-bookings" href="bookings.php"
                                 class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
@@ -62,14 +64,16 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-300 hover:text-accent transition-all flex items-center group">
+                            <a id="footer-how-it-works" href="index.php#how-it-works"
+                                class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                                 How It Works
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-300 hover:text-accent transition-all flex items-center group">
+                            <a id="footer-faqs" href="index.php#faqs"
+                                class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                                 FAQs
