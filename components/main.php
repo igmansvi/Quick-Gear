@@ -1,6 +1,6 @@
 <div class="hero-section">
     <div class="hero-content">
-        <h1 class="hero-title">RentEase</h1>
+        <h1 class="hero-title">Renting Made Easy</h1>
         <p class="hero-subtitle">Premium Equipment Rentals. Doorstep Delivery.</p>
         <a href="#products" class="cta-button">Rent Now</a>
     </div>
