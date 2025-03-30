@@ -100,7 +100,7 @@
         // Export products data from PHP into a JS variable
         const productsData = <?php echo json_encode($products); ?>;
 
-        // Render products with refined visuals (subtle hover lifts, smoother animations)
+        // Render products with each card wrapped with an id for direct linking.
         function renderProducts(filteredProducts) {
             const container = document.getElementById('product-grid');
             if (filteredProducts.length === 0) {
@@ -108,7 +108,7 @@
                 return;
             }
             container.innerHTML = filteredProducts.map(product => `
-                <div class="bg-white rounded-lg shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group"
+                <div id="product-${product.id}" class="bg-white rounded-lg shadow-sm overflow-hidden transform transition-all duration-300 hover:shadow-xl hover:-translate-y-1 group"
                      data-category="${product.category}" data-status="${product.status}" data-price="${product.price}">
                     <div class="relative overflow-hidden">
                         <img src="${product.image}" class="w-full h-48 object-cover transform transition-transform duration-300 group-hover:scale-105">
@@ -133,7 +133,7 @@
                                 <span class="text-gray-500">per ${product.price_type}</span>
                                 <p class="text-sm text-gray-500">Deposit: ₹${product.deposit.toLocaleString()}</p>
                             </div>
-                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-blue-700">
+                            <button onclick="location.href='browse.php?id=${product.id}'" class="bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-blue-700">
                                 Book Now
                             </button>
                         </div>
@@ -221,6 +221,19 @@
 
         // Trigger initial render once DOM is loaded
         filterItems();
+
+        // After rendering, check for id query parameter and scroll into view.
+        window.addEventListener('load', () => {
+            const params = new URLSearchParams(window.location.search);
+            const prodId = params.get('id');
+            if (prodId) {
+                const elem = document.getElementById(`product-${prodId}`);
+                if (elem) {
+                    // Slight delay to ensure element rendering
+                    setTimeout(() => { elem.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
+                }
+            }
+        });
     </script>
 </body>
 

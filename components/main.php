@@ -33,7 +33,7 @@
                     <p>Professional Canon 5D Mark IV with lens kit</p>
                     <div class="product-meta">
                         <span class="price">₹999/day</span>
-                        <a href="#" class="details-link">Book Now</a>
+                        <a href="browse.php?id=1" class="details-link">View Details</a>
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
                     <p>Gaming console with 2 controllers and 3 games</p>
                     <div class="product-meta">
                         <span class="price">₹499/day</span>
-                        <a href="#" class="details-link">Book Now</a>
+                        <a href="browse.php?id=2" class="details-link">View Details</a>
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                     <p>1.5 Ton Split AC with installation support</p>
                     <div class="product-meta">
                         <span class="price"><span class="original">₹1200/month</span> ₹999/month</span>
-                        <a href="#" class="details-link">Book Now</a>
+                        <a href="browse.php?id=3" class="details-link">View Details</a>
                     </div>
                 </div>
             </div>
@@ -77,7 +77,7 @@
                     <p>250L capacity with energy saving technology</p>
                     <div class="product-meta">
                         <span class="price">₹1500/month</span>
-                        <a href="#" class="details-link">Book Now</a>
+                        <a href="browse.php?id=4" class="details-link">View Details</a>
                     </div>
                 </div>
             </div>
@@ -92,23 +92,7 @@
                     <p>Professional audio setup for events and parties</p>
                     <div class="product-meta">
                         <span class="price">₹3500/day</span>
-                        <a href="#" class="details-link">Book Now</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-item" data-category="tools">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Wedding+Decor+Kit"
-                        alt="Wedding Decor Kit">
-                    <span class="badge">Best Seller</span>
-                </div>
-                <div class="product-details">
-                    <h3>Wedding Decor Package</h3>
-                    <p>Complete decor solution for up to 100 guests</p>
-                    <div class="product-meta">
-                        <span class="price">₹15,999/event</span>
-                        <a href="#" class="details-link">Book Now</a>
+                        <a href="browse.php?id=5" class="details-link">View Details</a>
                     </div>
                 </div>
             </div>
