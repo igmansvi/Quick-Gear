@@ -1,3 +1,4 @@
+<?php require_once './data/products.php'; ?>
 <div class="hero-section">
     <div class="hero-content">
         <h1 class="hero-title">Renting Made Easy</h1>
@@ -17,89 +18,125 @@
         <div class="category-filter">
             <button class="filter-btn active" data-category="all">All</button>
             <button class="filter-btn" data-category="tech">Electronics</button>
-            <button class="filter-btn" data-category="electric">Home Appliances</button>
-            <button class="filter-btn" data-category="tools">Event Equipment</button>
+            <button class="filter-btn" data-category="tools">Tools</button>
+            <button class="filter-btn" data-category="events">Event Equipment</button>
         </div>
 
         <div class="product-grid">
-            <!-- Electronics Category -->
-            <div class="product-item" data-category="tech">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=DSLR+Camera" alt="DSLR Camera">
-                    <span class="badge new">New</span>
-                </div>
-                <div class="product-details">
-                    <h3>DSLR Camera</h3>
-                    <p>Professional Canon 5D Mark IV with lens kit</p>
-                    <div class="product-meta">
-                        <span class="price">₹999/day</span>
-                        <a href="browse.php?id=1" class="details-link">View Details</a>
+            <?php foreach (array_slice($products, 0, 6) as $product): ?>
+                <div class="product-item" data-category="<?php echo htmlspecialchars($product['category']); ?>">
+                    <div class="product-image">
+                        <img src="<?php echo htmlspecialchars($product['image']); ?>"
+                            alt="<?php echo htmlspecialchars($product['name']); ?>">
+                        <?php if ($product['status'] === 'available'): ?>
+                            <span class="badge new">Available</span>
+                        <?php elseif ($product['status'] === 'coming_soon'): ?>
+                            <span class="badge sale">Coming Soon</span>
+                        <?php endif; ?>
+                    </div>
+                    <div class="product-details">
+                        <h3><?php echo htmlspecialchars($product['name']); ?></h3>
+                        <p><?php echo htmlspecialchars($product['description']); ?></p>
+                        <div class="product-meta">
+                            <span
+                                class="price">₹<?php echo number_format($product['price']); ?>/<?php echo htmlspecialchars($product['price_type']); ?></span>
+                            <a href="browse.php?id=<?php echo $product['id']; ?>" class="details-link">View Details</a>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="product-item" data-category="tech">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=PlayStation+5" alt="PlayStation 5">
-                </div>
-                <div class="product-details">
-                    <h3>PlayStation 5</h3>
-                    <p>Gaming console with 2 controllers and 3 games</p>
-                    <div class="product-meta">
-                        <span class="price">₹499/day</span>
-                        <a href="browse.php?id=2" class="details-link">View Details</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Home Appliances Category -->
-            <div class="product-item" data-category="electric">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Air+Conditioner" alt="Air Conditioner">
-                    <span class="badge sale">Popular</span>
-                </div>
-                <div class="product-details">
-                    <h3>Air Conditioner</h3>
-                    <p>1.5 Ton Split AC with installation support</p>
-                    <div class="product-meta">
-                        <span class="price"><span class="original">₹1200/month</span> ₹999/month</span>
-                        <a href="browse.php?id=3" class="details-link">View Details</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="product-item" data-category="electric">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Refrigerator" alt="Refrigerator">
-                </div>
-                <div class="product-details">
-                    <h3>Double Door Refrigerator</h3>
-                    <p>250L capacity with energy saving technology</p>
-                    <div class="product-meta">
-                        <span class="price">₹1500/month</span>
-                        <a href="browse.php?id=4" class="details-link">View Details</a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Event Equipment Category -->
-            <div class="product-item" data-category="tools">
-                <div class="product-image">
-                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Sound+System" alt="Sound System">
-                </div>
-                <div class="product-details">
-                    <h3>DJ Sound System</h3>
-                    <p>Professional audio setup for events and parties</p>
-                    <div class="product-meta">
-                        <span class="price">₹3500/day</span>
-                        <a href="browse.php?id=5" class="details-link">View Details</a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
 
         <div class="view-all">
-            <a href="rentals.php" class="view-all-btn">View All Rentals</a>
+            <a href="browse.php" class="view-all-btn">View All Rentals</a>
+        </div>
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="testimonials-section bg-gray-100 py-12">
+    <div class="container mx-auto px-6">
+        <div class="section-header text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">What Our Customers Say</h2>
+            <p class="text-gray-600">Hear from our happy customers</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="testimonial bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600 italic">"Quick Gear made my event planning so much easier. The equipment was
+                    top-notch and delivered on time!"</p>
+                <h4 class="mt-4 font-bold text-gray-800">- Priya Sharma</h4>
+            </div>
+            <div class="testimonial bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600 italic">"I rented a DSLR camera for my vacation. The process was seamless, and
+                    the camera worked perfectly."</p>
+                <h4 class="mt-4 font-bold text-gray-800">- Rahul Verma</h4>
+            </div>
+            <div class="testimonial bg-white p-6 rounded-lg shadow-md">
+                <p class="text-gray-600 italic">"Affordable prices and excellent customer service. Highly recommend
+                    Quick Gear for any rental needs."</p>
+                <h4 class="mt-4 font-bold text-gray-800">- Anjali Mehta</h4>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<div class="how-it-works-section py-12">
+    <div class="container mx-auto px-6">
+        <div class="section-header text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">How It Works</h2>
+            <p class="text-gray-600">Renting made simple in just three steps</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+            <div class="step">
+                <div
+                    class="icon bg-blue-600 text-white w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-search text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800">Browse</h4>
+                <p class="text-gray-600">Explore our collection of premium equipment.</p>
+            </div>
+            <div class="step">
+                <div
+                    class="icon bg-blue-600 text-white w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-calendar-alt text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800">Book</h4>
+                <p class="text-gray-600">Select your dates and confirm your booking.</p>
+            </div>
+            <div class="step">
+                <div
+                    class="icon bg-blue-600 text-white w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4">
+                    <i class="fas fa-truck text-2xl"></i>
+                </div>
+                <h4 class="font-bold text-gray-800">Receive</h4>
+                <p class="text-gray-600">Get your equipment delivered to your doorstep.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FAQs Section -->
+<div class="faqs-section bg-gray-100 py-12">
+    <div class="container mx-auto px-6">
+        <div class="section-header text-center mb-8">
+            <h2 class="text-2xl font-bold text-gray-800">Frequently Asked Questions</h2>
+            <p class="text-gray-600">Find answers to common questions</p>
+        </div>
+        <div class="faq-list">
+            <div class="faq-item mb-6">
+                <h4 class="font-bold text-gray-800">What is the rental process?</h4>
+                <p class="text-gray-600">Browse our collection, book your desired equipment, and get it delivered to
+                    your location.</p>
+            </div>
+            <div class="faq-item mb-6">
+                <h4 class="font-bold text-gray-800">What are the payment options?</h4>
+                <p class="text-gray-600">We accept all major credit/debit cards, UPI, and net banking.</p>
+            </div>
+            <div class="faq-item mb-6">
+                <h4 class="font-bold text-gray-800">Is there a security deposit?</h4>
+                <p class="text-gray-600">Yes, a refundable security deposit is required for most rentals.</p>
+            </div>
         </div>
     </div>
 </div>
@@ -469,6 +506,18 @@
         .section-header h2 {
             font-size: 1.8rem;
         }
+    }
+
+    .testimonials-section .testimonial {
+        text-align: center;
+    }
+
+    .how-it-works-section .step .icon {
+        font-size: 1.5rem;
+    }
+
+    .faqs-section .faq-item h4 {
+        margin-bottom: 0.5rem;
     }
 </style>
 
