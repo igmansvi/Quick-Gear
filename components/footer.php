@@ -54,7 +54,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="text-gray-300 hover:text-accent transition-all flex items-center group">
+                            <a href="bookings.php"
+                                class="text-gray-300 hover:text-accent transition-all flex items-center group">
                                 <i
                                     class="fas fa-chevron-right text-primary mr-2 text-xs group-hover:translate-x-1 transition-transform"></i>
                                 My Bookings
