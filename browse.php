@@ -10,7 +10,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gray-50">
+<body class="font-sans m-0 p-0 box-border">
     <?php include './components/header.php'; ?>
 
     <main class="container mx-auto px-4 py-8">
