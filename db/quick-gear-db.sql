@@ -40,6 +40,7 @@ CREATE TABLE IF NOT EXISTS bookings (
     booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(20) DEFAULT 'pending'
 );
+
 -- Insert demo data from bookings.php
 -- Note: user_id is set to 0 for demo purposes. In a real application, this would be the ID of the logged-in user.
 INSERT INTO bookings (user_id, product_id, start_date, end_date, status) VALUES
@@ -59,6 +60,11 @@ CREATE TABLE IF NOT EXISTS rent_item (
     message TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Insert demo data for rent_item
+INSERT INTO rent_item (product_id, full_name, email, phone, start_date, end_date, message) VALUES
+(2, 'John Doe', 'john@example.com', '1234567890', '2023-10-12', '2023-10-14', 'Looking forward to this rental.'),
+(3, 'Jane Smith', 'jane@example.com', '0987654321', '2023-10-08', '2023-10-10', 'Please confirm availability.');
 
 -- Add foreign key constraint for rent_item table
 ALTER TABLE rent_item

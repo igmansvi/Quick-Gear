@@ -53,7 +53,6 @@
     </div>
 </div>
 
-<!-- Testimonials Section -->
 <div class="testimonials-section bg-gray-100 py-12">
     <div class="container mx-auto px-6">
         <div class="section-header text-center mb-8">
@@ -80,7 +79,6 @@
     </div>
 </div>
 
-<!-- How It Works Section -->
 <div id="how-it-works" class="how-it-works-section py-12">
     <div class="container mx-auto px-6">
         <div class="section-header text-center mb-8">
@@ -116,7 +114,6 @@
     </div>
 </div>
 
-<!-- FAQs Section -->
 <div id="faqs" class="faqs-section bg-gray-100 py-12">
     <div class="container mx-auto px-6">
         <div class="section-header text-center mb-8">
@@ -223,7 +220,6 @@
         }
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .hero-title {
             font-size: 2.8rem;
@@ -253,7 +249,6 @@
         }
     }
 
-    /* Redesigned Product Showcase Section */
     .product-showcase {
         padding: 5rem 0;
         background-color: #fafafa;
@@ -299,7 +294,6 @@
         margin: 1rem auto 0;
     }
 
-    /* Category Filter */
     .category-filter {
         display: flex;
         justify-content: center;
@@ -331,7 +325,6 @@
         box-shadow: 0 3px 8px rgba(67, 97, 238, 0.25);
     }
 
-    /* Product Grid */
     .product-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -339,7 +332,6 @@
         margin-bottom: 3rem;
     }
 
-    /* Product Item */
     .product-item {
         background-color: #fff;
         border-radius: 12px;
@@ -454,7 +446,6 @@
         transform: translateX(3px);
     }
 
-    /* View All Button */
     .view-all {
         text-align: center;
         margin-top: 1rem;
@@ -479,7 +470,6 @@
         border-color: #2b2d42;
     }
 
-    /* Responsive adjustments */
     @media (max-width: 768px) {
         .product-grid {
             grid-template-columns: repeat(2, 1fr);
@@ -527,36 +517,30 @@
         const heroContent = document.querySelector('.hero-content');
         const heroGradient = document.querySelector('.hero-gradient');
 
-        // Parallax effect for gradient
         heroSection.addEventListener('mousemove', (e) => {
             const moveX = (e.clientX - window.innerWidth / 2) * 0.01;
             heroGradient.style.transform = `translateX(${moveX}px)`;
 
-            // Subtle shadow effect on title
             const heroTitle = document.querySelector('.hero-title');
             const x = e.clientX / window.innerWidth;
             const y = e.clientY / window.innerHeight;
             heroTitle.style.textShadow = `${(x - 0.5) * 5}px ${(y - 0.5) * 5}px 10px rgba(0,0,0,0.03)`;
         });
 
-        // Restore default state when mouse leaves
         heroSection.addEventListener('mouseleave', () => {
             heroGradient.style.transform = 'translateX(0)';
             const heroTitle = document.querySelector('.hero-title');
             heroTitle.style.textShadow = '0px 2px 10px rgba(0,0,0,0.05)';
         });
 
-        // Category filter functionality - simplified
         const filterBtns = document.querySelectorAll('.filter-btn');
         const productItems = document.querySelectorAll('.product-item');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Update active button
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
 
-                // Filter products with smooth transitions
                 const category = btn.getAttribute('data-category');
 
                 productItems.forEach(item => {
@@ -577,12 +561,10 @@
             });
         });
 
-        // Initial setup
         productItems.forEach(item => {
             item.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
         });
 
-        // Intersection Observer for fade-in effect
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -593,21 +575,17 @@
             });
         }, { threshold: 0.1 });
 
-        // Set initial state and observe each product
         productItems.forEach(item => {
             item.style.opacity = 0;
             item.style.transform = 'translateY(20px)';
             observer.observe(item);
         });
 
-        // Add city selection dropdown functionality
         const citySelector = document.getElementById('city-selector');
         if (citySelector) {
             citySelector.addEventListener('change', function () {
-                // Here you would typically filter products by city availability
                 const selectedCity = this.value;
                 console.log(`Selected city: ${selectedCity}`);
-                // Additional city filtering logic would go here
             });
         }
     });

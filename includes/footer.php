@@ -19,10 +19,7 @@
 <body>
     <footer class="bg-gray-900 text-white pt-12 pb-6">
         <div class="container mx-auto px-10">
-            <!-- Updated grid layout: 4 columns on lg -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-
-                <!-- About Site -->
                 <div class="mb-8">
                     <h3 class="text-xl font-bold mb-4 text-accent border-b border-gray-700 pb-1">Quick Gear</h3>
                     <div class="flex items-center mb-3">
@@ -34,8 +31,6 @@
                         service.
                     </p>
                 </div>
-
-                <!-- Quick Links -->
                 <div class="mb-8">
                     <h3 class="text-xl font-bold mb-4 text-accent border-b border-gray-700 pb-1">Quick Links</h3>
                     <ul class="space-y-2 text-xs">
@@ -81,8 +76,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Contact Us / Newsletter -->
                 <div class="mb-8">
                     <h3 class="text-xl font-bold mb-4 text-accent border-b border-gray-700 pb-1">Contact Us</h3>
                     <ul class="space-y-2 text-xs">
@@ -106,8 +99,6 @@
                             class="w-full mt-2 bg-accent text-gray-900 text-xs p-2 rounded-lg hover:bg-secondary transition-all">Subscribe</button>
                     </div>
                 </div>
-
-                <!-- Connect With Us (Social Media) -->
                 <div class="mb-8">
                     <h3 class="text-xl font-bold mb-4 text-accent border-b border-gray-700 pb-1">Follow Us</h3>
                     <div class="grid grid-cols-4 gap-3 mb-2">
@@ -136,8 +127,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Copyright Bar -->
         <div class="mt-12 pt-6 border-t border-gray-800">
             <div class="container mx-auto px-6">
                 <div class="flex flex-col md:flex-row justify-between items-center space-y-2 md:space-y-0 text-xs">

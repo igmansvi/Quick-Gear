@@ -1,12 +1,9 @@
 <header
     class="flex justify-between items-center px-8 py-4 bg-gradient-to-r from-[#2b2d42] to-[#4361ee] shadow-lg text-white sticky top-0 z-50 transition-all duration-300">
-    <!-- Logo on left -->
     <a href="index.php" class="flex items-center text-2xl font-bold hover:scale-105 transition-transform duration-300">
         <i class="fas fa-tools mr-3 text-3xl text-[#3a86ff] drop-shadow-md"></i>
         <span class="bg-clip-text text-transparent bg-gradient-to-r from-white to-[#a8dadc]">Quick Gear</span>
     </a>
-
-    <!-- Navigation in center -->
     <nav class="flex gap-5">
         <a id="nav-browse" href="browse.php"
             class="nav-link bg-white/10 text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-white/20 hover:-translate-y-0.5 hover:shadow-md flex items-center">
@@ -24,8 +21,6 @@
             Bookings
         </a>
     </nav>
-
-    <!-- Login on right -->
     <a id="nav-login" href="login.php"
         class="login-btn relative bg-[#3a86ff] text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a8dadc] hover:text-[#2b2d42] hover:-translate-y-0.5 hover:shadow-lg flex items-center gap-2 overflow-hidden group">
         <span class="relative z-10">User</span>
@@ -34,16 +29,12 @@
         <i class="fas fa-user relative z-10"></i>
     </a>
 </header>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Header scroll effect
         const header = document.querySelector('header');
         let lastScrollTop = 0;
-
         window.addEventListener('scroll', function () {
             let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
             if (scrollTop > 100) {
                 header.classList.add('py-2', 'shadow-xl');
                 header.classList.remove('py-4');
@@ -51,21 +42,15 @@
                 header.classList.add('py-4');
                 header.classList.remove('py-2', 'shadow-xl');
             }
-
-            // Hide/show header on scroll
             if (scrollTop > lastScrollTop && scrollTop > 300) {
                 header.style.transform = 'translateY(-100%)';
             } else {
                 header.style.transform = 'translateY(0)';
             }
-
             lastScrollTop = scrollTop;
         });
-
-        // Highlight current page in navigation
         const navLinks = document.querySelectorAll('.nav-link');
         const currentPage = window.location.pathname.split('/').pop();
-
         navLinks.forEach(link => {
             const linkPage = link.getAttribute('href');
             if (currentPage === linkPage || (currentPage === '' && linkPage === 'index.php')) {
