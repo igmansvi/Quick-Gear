@@ -4,21 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Equipment Rental</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./src/css/styles.css">
+    <title>Quick Gear - Equipment Rental Site</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-white text-dark-gray">
-    <header>
-        <?php include './pages/components/header.php'; ?>
-    </header>
+<body class="font-sans m-0 p-0 box-border">
+    <?php include './components/header.php'; ?>
+
     <main>
-        <?php include './pages/components/main.php'; ?>
+        <?php include './components/main.php'; ?>
     </main>
-    <footer>
-        <?php include './pages/components/footer.php'; ?>
-    </footer>
+
+    <?php include './components/footer.php'; ?>
 </body>
 
 </html>
