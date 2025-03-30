@@ -1,4 +1,45 @@
 <?php
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Connect without a database first
+    $conn = new mysqli('localhost', 'root', '');
+    if ($conn->connect_error) {
+        error_log('Database connection error: ' . $conn->connect_error);
+        exit('Database connection error');
+    }
+    // Create the database if it doesn't exist and select it
+    if (!$conn->select_db('quick-gear-db')) { // updated name
+        $conn->query("CREATE DATABASE IF NOT EXISTS `quick-gear-db`"); // updated name
+        $conn->select_db('quick-gear-db'); // updated name
+    }
+
+    // Sanitize and retrieve form data
+    $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+    $full_name = $_POST['full_name'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $phone = $_POST['phone'] ?? '';
+    $start_date = $_POST['start_date'] ?? '';
+    $end_date = $_POST['end_date'] ?? '';
+    $message = $_POST['message'] ?? '';
+
+    // Prepared statement for secure insert (updated table name)
+    $stmt = $conn->prepare("INSERT INTO `rent_item` (product_id, full_name, email, phone, start_date, end_date, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    if (!$stmt) {
+        error_log("Prepare failed: " . $conn->error);
+        exit('Prepare failed');
+    }
+    $stmt->bind_param("issssss", $product_id, $full_name, $email, $phone, $start_date, $end_date, $message);
+
+    if ($stmt->execute()) {
+        echo 'success';
+    } else {
+        error_log("Insert error: " . $stmt->error);
+        echo 'error';
+    }
+    $stmt->close();
+    $conn->close();
+    exit();
+}
+
 require_once './data/products_data.php';
 include './components/header.php';
 
@@ -111,14 +152,31 @@ if (!$product):
 </div>
 
 <script>
+    // Updated AJAX form handler
     document.getElementById('rentalForm').addEventListener('submit', function (e) {
         e.preventDefault();
-        const popup = document.getElementById('popup');
-        popup.classList.remove('hidden');
-        setTimeout(() => {
-            popup.classList.remove('opacity-0');
-            popup.firstElementChild.classList.remove('scale-95');
-        }, 50);
+        const formData = new FormData(this);
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.text())
+            .then(result => {
+                if (result.trim() === 'success') {
+                    const popup = document.getElementById('popup');
+                    popup.classList.remove('hidden');
+                    setTimeout(() => {
+                        popup.classList.remove('opacity-0');
+                        popup.firstElementChild.classList.remove('scale-95');
+                    }, 50);
+                } else {
+                    alert('There was an error submitting your request.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your request.');
+            });
     });
     document.getElementById('closePopup').addEventListener('click', function () {
         const popup = document.getElementById('popup');

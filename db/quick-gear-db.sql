@@ -43,13 +43,17 @@ INSERT INTO bookings (user_id, product_id, start_date, end_date, status) VALUES
 (0, 3, '2023-10-05', '2023-10-07', 'pending'),
 (0, 4, '2023-10-20', '2023-10-27', 'confirmed');
 
--- Create rent_item table to store rental requests from rent.php
+-- Update the rent_item table to store full request details
 CREATE TABLE IF NOT EXISTS rent_item (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
     full_name VARCHAR(255) NOT NULL,
-    request_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'pending'
+    email VARCHAR(255) NOT NULL,
+    phone VARCHAR(50) NOT NULL,
+    start_date DATE NOT NULL,
+    end_date DATE NOT NULL,
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Create list_item table to store listing items from list_item.php
