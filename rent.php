@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 require_once './data/products_data.php';
-include './components/header.php';
+include './includes/header.php';
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $product = null;
@@ -179,4 +179,4 @@ if (!$product):
     });
 </script>
 
-<?php include './components/footer.php'; ?>
+<?php include './includes/footer.php'; ?>

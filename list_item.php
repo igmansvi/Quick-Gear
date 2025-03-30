@@ -1,6 +1,6 @@
 <?php
 require_once './data/products_data.php'; // now provides $pdo and $products
-include './components/header.php';
+include './includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Process form submission
@@ -160,4 +160,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         });
     });
 </script>
-<?php include './components/footer.php'; ?>
+<?php include './includes/footer.php'; ?>

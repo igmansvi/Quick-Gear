@@ -11,7 +11,7 @@
 </head>
 
 <body class="font-sans m-0 p-0 box-border">
-    <?php include './components/header.php'; ?>
+    <?php include './includes/header.php'; ?>
 
     <main class="container mx-auto px-4 py-8">
         <?php if (empty($products)): ?>
@@ -98,7 +98,7 @@
         <?php endif; ?>
     </main>
 
-    <?php include './components/footer.php'; ?>
+    <?php include './includes/footer.php'; ?>
 
     <script>
         // Export products data from PHP into a JS variable

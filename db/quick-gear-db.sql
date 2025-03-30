@@ -1,3 +1,7 @@
+-- Run this SQL script to create the database and tables for the Quick Gear rental system.
+-- This script includes the creation of the database, tables, and insertion of demo data.
+-- Make sure to run this script in a MySQL environment.
+-- Database: quick-gear-db
 -- Create database
 CREATE DATABASE IF NOT EXISTS `quick-gear-db`;
 USE `quick-gear-db`;

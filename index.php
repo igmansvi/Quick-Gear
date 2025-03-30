@@ -10,13 +10,13 @@
 </head>
 
 <body class="font-sans m-0 p-0 box-border">
-    <?php include './components/header.php'; ?>
+    <?php include './includes/header.php'; ?>
 
     <main>
-        <?php include './components/main.php'; ?>
+        <?php include './includes/main.php'; ?>
     </main>
 
-    <?php include './components/footer.php'; ?>
+    <?php include './includes/footer.php'; ?>
 </body>
 
 </html>

@@ -1,5 +1,5 @@
 <?php
-include './components/header.php';
+include './includes/header.php';
 include './data/bookings_data.php';
 ?>
 <main class="container mx-auto py-10 bg-gray-50 px-24">
@@ -28,4 +28,4 @@ include './data/bookings_data.php';
         <?php endforeach; ?>
     </div>
 </main>
-<?php include './components/footer.php'; ?>
+<?php include './includes/footer.php'; ?>
