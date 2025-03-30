@@ -18,7 +18,7 @@
 
 <body>
     <footer class="bg-gray-900 text-white pt-12 pb-6">
-        <div class="container mx-auto px-6">
+        <div class="container mx-auto px-10">
             <!-- Updated grid layout: 4 columns on lg -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
 
