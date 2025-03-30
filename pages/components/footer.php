@@ -1,6 +1,6 @@
 <?php ?>
 <!-- Standard Footer -->
-<footer class="bg-gray-800 text-white mt-12 py-8">
+<div class="bg-gray-800 text-white mt-12 py-8">
     <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
@@ -43,4 +43,4 @@
             <p>&copy; 2023 QuickGear. All rights reserved.</p>
         </div>
     </div>
-</footer>
+</div>
