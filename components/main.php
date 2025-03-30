@@ -1,8 +1,8 @@
 <div class="hero-section">
     <div class="hero-content">
-        <h1 class="hero-title">QuickGear</h1>
-        <p class="hero-subtitle">Quality Equipment. Fast Delivery.</p>
-        <a href="#products" class="cta-button">Explore</a>
+        <h1 class="hero-title">RentEase</h1>
+        <p class="hero-subtitle">Premium Equipment Rentals. Doorstep Delivery.</p>
+        <a href="#products" class="cta-button">Rent Now</a>
     </div>
     <div class="hero-gradient"></div>
 </div>
@@ -10,113 +10,112 @@
 <div class="product-showcase" id="products">
     <div class="container">
         <div class="section-header">
-            <h2>Our Collection</h2>
-            <p>Explore our curated selection of quality equipment</p>
+            <h2>Rental Collection</h2>
+            <p>Quality equipment for rent at affordable prices across major Indian cities</p>
         </div>
 
         <div class="category-filter">
             <button class="filter-btn active" data-category="all">All</button>
-            <button class="filter-btn" data-category="tech">Tech</button>
-            <button class="filter-btn" data-category="electric">Electric & Plumbing</button>
-            <button class="filter-btn" data-category="tools">Tools</button>
+            <button class="filter-btn" data-category="tech">Electronics</button>
+            <button class="filter-btn" data-category="electric">Home Appliances</button>
+            <button class="filter-btn" data-category="tools">Event Equipment</button>
         </div>
 
         <div class="product-grid">
-            <!-- Tech Category -->
+            <!-- Electronics Category -->
             <div class="product-item" data-category="tech">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=Wireless+Headphones"
-                        alt="Wireless Headphones">
+                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=DSLR+Camera" alt="DSLR Camera">
                     <span class="badge new">New</span>
                 </div>
                 <div class="product-details">
-                    <h3>Wireless Headphones</h3>
-                    <p>Premium sound quality with noise cancellation</p>
+                    <h3>DSLR Camera</h3>
+                    <p>Professional Canon 5D Mark IV with lens kit</p>
                     <div class="product-meta">
-                        <span class="price">$129.99</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price">₹999/day</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
 
             <div class="product-item" data-category="tech">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=Smart+Watch" alt="Smart Watch">
+                    <img src="https://placehold.co/400x300/4361ee/ffffff?text=PlayStation+5" alt="PlayStation 5">
                 </div>
                 <div class="product-details">
-                    <h3>Smart Watch</h3>
-                    <p>Track fitness and stay connected</p>
+                    <h3>PlayStation 5</h3>
+                    <p>Gaming console with 2 controllers and 3 games</p>
                     <div class="product-meta">
-                        <span class="price">$89.99</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price">₹499/day</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
 
-            <!-- Electric & Plumbing Category -->
+            <!-- Home Appliances Category -->
             <div class="product-item" data-category="electric">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Electric+Drill" alt="Electric Drill">
-                    <span class="badge sale">Sale</span>
+                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Air+Conditioner" alt="Air Conditioner">
+                    <span class="badge sale">Popular</span>
                 </div>
                 <div class="product-details">
-                    <h3>Electric Drill</h3>
-                    <p>Powerful and precise drilling</p>
+                    <h3>Air Conditioner</h3>
+                    <p>1.5 Ton Split AC with installation support</p>
                     <div class="product-meta">
-                        <span class="price"><span class="original">$75.99</span> $59.99</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price"><span class="original">₹1200/month</span> ₹999/month</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
 
             <div class="product-item" data-category="electric">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Pipe+Wrench+Set" alt="Pipe Wrench">
+                    <img src="https://placehold.co/400x300/ff6b6b/ffffff?text=Refrigerator" alt="Refrigerator">
                 </div>
                 <div class="product-details">
-                    <h3>Pipe Wrench Set</h3>
-                    <p>Professional grade plumbing tools</p>
+                    <h3>Double Door Refrigerator</h3>
+                    <p>250L capacity with energy saving technology</p>
                     <div class="product-meta">
-                        <span class="price">$42.50</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price">₹1500/month</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
 
-            <!-- General Tools Category -->
+            <!-- Event Equipment Category -->
             <div class="product-item" data-category="tools">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Complete+Tool+Kit" alt="Tool Kit">
+                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Sound+System" alt="Sound System">
                 </div>
                 <div class="product-details">
-                    <h3>Complete Tool Kit</h3>
-                    <p>Essential tools for home use</p>
+                    <h3>DJ Sound System</h3>
+                    <p>Professional audio setup for events and parties</p>
                     <div class="product-meta">
-                        <span class="price">$120.00</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price">₹3500/day</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
 
             <div class="product-item" data-category="tools">
                 <div class="product-image">
-                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Precision+Measuring+Set"
-                        alt="Measuring Tape">
+                    <img src="https://placehold.co/400x300/2b2d42/ffffff?text=Wedding+Decor+Kit"
+                        alt="Wedding Decor Kit">
                     <span class="badge">Best Seller</span>
                 </div>
                 <div class="product-details">
-                    <h3>Precision Measuring Set</h3>
-                    <p>Accurate measurements every time</p>
+                    <h3>Wedding Decor Package</h3>
+                    <p>Complete decor solution for up to 100 guests</p>
                     <div class="product-meta">
-                        <span class="price">$34.99</span>
-                        <a href="#" class="details-link">Details</a>
+                        <span class="price">₹15,999/event</span>
+                        <a href="#" class="details-link">Book Now</a>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="view-all">
-            <a href="shop.php" class="view-all-btn">View All Products</a>
+            <a href="rentals.php" class="view-all-btn">View All Rentals</a>
         </div>
     </div>
 </div>
@@ -567,5 +566,16 @@
             item.style.transform = 'translateY(20px)';
             observer.observe(item);
         });
+
+        // Add city selection dropdown functionality
+        const citySelector = document.getElementById('city-selector');
+        if (citySelector) {
+            citySelector.addEventListener('change', function () {
+                // Here you would typically filter products by city availability
+                const selectedCity = this.value;
+                console.log(`Selected city: ${selectedCity}`);
+                // Additional city filtering logic would go here
+            });
+        }
     });
 </script>
