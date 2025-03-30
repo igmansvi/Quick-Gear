@@ -2,7 +2,7 @@
 $host = 'localhost';
 $db = 'quick-gear-db';
 $user = 'root';
-$pass = ''; 
+$pass = '';
 $charset = 'utf8mb4';
 
 $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
@@ -25,6 +25,17 @@ try {
 } catch (PDOException $e) {
     error_log($e->getMessage());
     $products = [];
+}
+
+// New code block to load newly listed items from list_item table
+try {
+    $stmt = $pdo->query('SELECT * FROM list_item');
+    $listItems = $stmt->fetchAll();
+    // Merge list items with products
+    $products = array_merge($products, $listItems);
+} catch (PDOException $e) {
+    error_log($e->getMessage());
+    // If query fails, simply continue with products from products table
 }
 
 $categories = [
