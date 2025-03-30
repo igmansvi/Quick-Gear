@@ -17,11 +17,9 @@
         <?php if (empty($products)): ?>
             <p class="text-center text-red-500">No products found. Please check back later.</p>
         <?php else: ?>
-            <!-- Enhanced Search and Filter Section with smoother transitions and shadow improvements -->
             <div
                 class="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transition-all duration-500 hover:shadow-2xl">
                 <div class="flex flex-col gap-6">
-                    <!-- Title and Search Bar -->
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                         <h2 class="text-2xl font-bold text-gray-800">Browse Equipment</h2>
                         <div class="w-full md:w-1/3 relative">
@@ -32,7 +30,6 @@
                         </div>
                     </div>
 
-                    <!-- Enhanced Filters -->
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="relative">
                             <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
@@ -75,17 +72,13 @@
                         </div>
                     </div>
 
-                    <!-- Active Filters -->
                     <div class="flex flex-wrap gap-2 min-h-[2rem]" id="active-filters"></div>
                 </div>
             </div>
 
-            <!-- Replace the static product grid with a container for dynamic rendering -->
             <div id="product-grid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Dynamic products will render here -->
             </div>
 
-            <!-- Improved Pagination -->
             <div class="mt-8 flex justify-center">
                 <nav class="inline-flex rounded-lg shadow-sm bg-white">
                     <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Previous</button>
@@ -101,10 +94,8 @@
     <?php include './includes/footer.php'; ?>
 
     <script>
-        // Export products data from PHP into a JS variable
         const productsData = <?php echo json_encode($products); ?>;
 
-        // Render products with each card wrapped with an id for direct linking.
         function renderProducts(filteredProducts) {
             const container = document.getElementById('product-grid');
             if (filteredProducts.length === 0) {
@@ -130,8 +121,7 @@
                         <p class="text-gray-600 text-sm">${product.description}</p>
                         <div class="mt-3 flex flex-wrap gap-2">
                             ${(typeof product.features === 'string' ? product.features.split(/\s*,\s*/) : product.features)
-                    .map(feature => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${feature}</span>`)
-                    .join('')}
+                    .map(feature => `<span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">${feature}</span>`).join('')}
                         </div>
                         <div class="mt-4 flex justify-between items-end">
                             <div>
@@ -148,7 +138,6 @@
             `).join('');
         }
 
-        // Filtering
         function filterItems() {
             const searchText = document.getElementById('search').value.toLowerCase().trim();
             const categoryValue = document.getElementById('category-filter').value.toLowerCase();
@@ -219,23 +208,19 @@
             filterItems();
         };
 
-        // Attach event listeners for filtering
         document.getElementById('search').addEventListener('input', filterItems);
         document.getElementById('category-filter').addEventListener('change', filterItems);
         document.getElementById('availability-filter').addEventListener('change', filterItems);
         document.getElementById('price-filter').addEventListener('change', filterItems);
 
-        // Trigger initial render once DOM is loaded
         filterItems();
 
-        // After rendering, check for id query parameter and scroll into view.
         window.addEventListener('load', () => {
             const params = new URLSearchParams(window.location.search);
             const prodId = params.get('id');
             if (prodId) {
                 const elem = document.getElementById(`product-${prodId}`);
                 if (elem) {
-                    // Slight delay to ensure element rendering
                     setTimeout(() => { elem.scrollIntoView({ behavior: 'smooth', block: 'center' }); }, 300);
                 }
             }

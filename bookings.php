@@ -5,8 +5,8 @@ include './data/bookings_data.php';
 <main class="container mx-auto py-10 bg-gray-50 px-24">
     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">My Bookings</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        <?php foreach ($bookings as $booking):
-            // Set status color based on status
+        <?php foreach ($bookings as $booking): ?>
+            <?php
             $statusColor = ($booking['status'] === 'confirmed') ? '#2ecc71' :
                 (($booking['status'] === 'pending') ? '#f1c40f' : '#e74c3c');
             ?>

@@ -1,9 +1,8 @@
 <?php
-require_once './data/products_data.php'; // now provides $pdo and $products
+require_once './data/products_data.php';
 include './includes/header.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Process form submission
     $name = trim($_POST['name'] ?? '');
     $category = trim($_POST['category'] ?? '');
     $description = trim($_POST['description'] ?? '');
@@ -42,7 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">List Your Product for Rental</h2>
         <p class="text-center text-gray-600 mb-6">Please fill in the details below to list your product for rental.</p>
         <?php if (isset($success) && $success): ?>
-            <!-- The success message is now handled via popup -->
         <?php endif; ?>
         <form action="list_item.php" method="post" class="space-y-6">
             <div>
@@ -50,7 +48,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <input type="text" name="name" id="name" required placeholder="Enter product name"
                     class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
             </div>
-
             <div>
                 <label class="block text-gray-700 font-medium mb-1" for="category">Category</label>
                 <select name="category" id="category" required
@@ -61,14 +58,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <?php endforeach; ?>
                 </select>
             </div>
-
             <div>
                 <label class="block text-gray-700 font-medium mb-1" for="description">Description</label>
                 <textarea name="description" id="description" rows="4" required
                     placeholder="Provide a detailed description"
                     class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"></textarea>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                     <label class="block text-gray-700 font-medium mb-1" for="price">Rental Price</label>
@@ -90,7 +85,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-gray-700 font-medium mb-1" for="status">Status</label>
@@ -106,13 +100,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
                 </div>
             </div>
-
             <div>
                 <label class="block text-gray-700 font-medium mb-1" for="features">Features (comma separated)</label>
                 <input type="text" name="features" id="features" required placeholder="e.g., 4K Video, Dual Pixel AF"
                     class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
             </div>
-
             <div class="text-center">
                 <button type="submit"
                     class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300">
@@ -121,8 +113,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </form>
     </div>
-
-    <!-- Popup Modal for Successful Listing -->
     <div id="popup"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300">
         <div
@@ -136,20 +126,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </div>
 </main>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        // Check for server-side success flag
         <?php if (isset($success) && $success): ?>
             const popup = document.getElementById('popup');
             popup.classList.remove('hidden');
-            // Ensure transitions are triggered after class removal 
             setTimeout(() => {
                 popup.classList.remove('opacity-0');
                 popup.firstElementChild.classList.remove('scale-95');
             }, 50);
         <?php endif; ?>
-
         document.getElementById('closePopup').addEventListener('click', function () {
             const popup = document.getElementById('popup');
             popup.classList.add('opacity-0');
