@@ -83,7 +83,7 @@ if (!$product):
     </main>
 <?php else: ?>
     <main class="container mx-auto py-8">
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 transition transform hover:scale-105">
+        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 transition transform duration-300 hover:shadow-2xl hover:shadow-blue-300">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="flex items-center justify-center">
                     <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>"
