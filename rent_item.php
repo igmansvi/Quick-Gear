@@ -32,6 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ADD COLUMN message TEXT AFTER end_date");
         }
 
+        $stmt = $pdo->query("SELECT IFNULL(MAX(id), 0) + 1 AS next_id FROM bookings");
+        $nextId = $stmt->fetchColumn();
+        $pdo->exec("ALTER TABLE bookings AUTO_INCREMENT = $nextId");
+
         $stmt = $pdo->prepare("INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
         $stmt->execute([$user_id, $product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);

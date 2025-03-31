@@ -164,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             popup.firstElementChild.classList.add('scale-95');
             setTimeout(() => {
                 popup.classList.add('hidden');
-                location.reload();
+                window.location.href = 'list_item.php';
             }, 300);
         });
     });
