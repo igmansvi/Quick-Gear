@@ -143,47 +143,45 @@ if (!$product):
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div></div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">Start Date</label>
+                            <input type="date" name="start_date" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 text-sm font-medium mb-1">End Date</label>
+                            <input type="date" name="end_date" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+                        </div>
                     </div>
-                    <label class="block text-gray-700 text-sm font-medium mb-1">Start Date</label>
-                    <input type="date" name="start_date" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
-            </div>
-            <div>
-                <label class="block text-gray-700 text-sm font-medium mb-1">End Date</label>
-                <input type="date" name="end_date" required
-                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
-            </div>
-        </div>
 
-        <div>
-            <label class="block text-gray-700 text-sm font-medium mb-1">Additional Message</label>
-            <textarea name="message" rows="3"
-                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
-                placeholder="Any special requirements?"></textarea>
-        </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-medium mb-1">Additional Message</label>
+                        <textarea name="message" rows="3"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                            placeholder="Any special requirements?"></textarea>
+                    </div>
 
-        <div>
-            <button type="submit"
-                class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors duration-300">Submit
-                Request</button>
-        </div>
-        </form>
-        </div>
+                    <div>
+                        <button type="submit"
+                            class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors duration-300">Submit
+                            Request</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </main>
 <?php endif; ?>
 
 <div id="popup"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300">
-</div>
-<div
-    class="bg-white p-8 rounded-xl shadow-xl text-center max-w-sm w-full transform transition-all duration-300 scale-95">
-    <h2 class="text-2xl font-bold mb-4 text-green-600">Request Received</h2>
-    <p class="text-gray-700 mb-6">Thank you! Your rental request has been received.</p>
-    <button id="closePopup"
-        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">Close</button>
-</div>
+    <div
+        class="bg-white p-8 rounded-xl shadow-xl text-center max-w-sm w-full transform transition-all duration-300 scale-95">
+        <h2 class="text-2xl font-bold mb-4 text-green-600">Request Received</h2>
+        <p class="text-gray-700 mb-6">Thank you! Your rental request has been received.</p>
+        <button id="closePopup"
+            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">Close</button>
+    </div>
 </div>
 
 <script>
