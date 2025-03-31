@@ -1,17 +1,15 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Removed MySQLi connection and database creation logic
-    require_once './data/products_data.php'; // now provides $pdo
+    require_once './data/products_data.php';
 
-    // Addition: Check for valid PDO instance to avoid database connection issues
     if (!isset($pdo) || !($pdo instanceof PDO)) {
         error_log('PDO connection issue: PDO instance not found.');
         echo 'error';
         exit();
     }
 
-    // Sanitize and retrieve form data
     $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+    $user_id = 0;
     $full_name = $_POST['full_name'] ?? '';
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -19,10 +17,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_date = $_POST['end_date'] ?? '';
     $message = $_POST['message'] ?? '';
 
-    // Use PDO prepared statement for secure insert
-    $stmt = $pdo->prepare("INSERT INTO `rent_item` (product_id, full_name, email, phone, start_date, end_date, message, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    // Ensure the bookings table has all required fields
     try {
-        $stmt->execute([$product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
+        // Check if the bookings table has the necessary columns
+        $stmt = $pdo->query("SHOW COLUMNS FROM bookings LIKE 'full_name'");
+        $hasFullName = $stmt->rowCount() > 0;
+
+        if (!$hasFullName) {
+            // Add the missing columns to the bookings table
+            $pdo->exec("ALTER TABLE bookings 
+                ADD COLUMN full_name VARCHAR(255) NOT NULL AFTER product_id,
+                ADD COLUMN email VARCHAR(255) NOT NULL AFTER full_name,
+                ADD COLUMN phone VARCHAR(50) NOT NULL AFTER email,
+                ADD COLUMN message TEXT AFTER end_date");
+        }
+
+        // Insert directly into bookings table with all fields
+        $stmt = $pdo->prepare("INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) 
+                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+        $stmt->execute([$user_id, $product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
         echo 'success';
     } catch (PDOException $e) {
         error_log("Insert error: " . $e->getMessage());
@@ -33,6 +46,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 require_once './data/products_data.php';
 include './includes/header.php';
+
+$user_id = 0;
+$user_data = [
+    'full_name' => '',
+    'email' => '',
+    'phone' => ''
+];
+
+try {
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($user) {
+        $user_data = [
+            'full_name' => $user['full_name'] ?? '',
+            'email' => $user['email'] ?? '',
+            'phone' => $user['phone'] ?? ''
+        ];
+    }
+} catch (PDOException $e) {
+    error_log("Error retrieving user data: " . $e->getMessage());
+}
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 $product = null;
@@ -52,7 +88,6 @@ if (!$product):
 <?php else: ?>
     <main class="container mx-auto py-8">
         <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 transition transform hover:scale-105">
-            <!-- Improved Product Details Section -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="flex items-center justify-center">
                     <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>"
@@ -76,28 +111,34 @@ if (!$product):
                     </div>
                 </div>
             </div>
-            <!-- Improved Rental Request Form with Reduced Size -->
+
             <div class="mt-6 bg-gray-50 p-4 rounded-xl shadow-inner">
                 <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Rental Request</h3>
                 <form action="#" id="rentalForm" method="post" class="space-y-4">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                    <input type="hidden" name="user_id" value="0">
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium mb-1">Full Name</label>
-                        <input type="text" name="full_name" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="text" name="full_name" value="<?php echo htmlspecialchars($user_data['full_name']); ?>"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg <?php echo !empty($user_data['full_name']) ? 'bg-gray-100' : ''; ?>"
+                            <?php echo !empty($user_data['full_name']) ? 'readonly' : ''; ?>>
                     </div>
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium mb-1">Email</label>
-                        <input type="email" name="email" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="email" name="email" value="<?php echo htmlspecialchars($user_data['email']); ?>"
+                            required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg <?php echo !empty($user_data['email']) ? 'bg-gray-100' : ''; ?>"
+                            <?php echo !empty($user_data['email']) ? 'readonly' : ''; ?>>
                     </div>
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium mb-1">Phone</label>
-                        <input type="tel" name="phone" required
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+                        <input type="tel" name="phone" value="<?php echo htmlspecialchars($user_data['phone']); ?>" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg <?php echo !empty($user_data['phone']) ? 'bg-gray-100' : ''; ?>"
+                            <?php echo !empty($user_data['phone']) ? 'readonly' : ''; ?>>
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -130,7 +171,7 @@ if (!$product):
         </div>
     </main>
 <?php endif; ?>
-<!-- Enhanced Popup Modal with Animation -->
+
 <div id="popup"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300">
     <div
@@ -143,7 +184,6 @@ if (!$product):
 </div>
 
 <script>
-    // Updated AJAX form handler
     document.getElementById('rentalForm').addEventListener('submit', function (e) {
         e.preventDefault();
         const formData = new FormData(this);
@@ -169,12 +209,14 @@ if (!$product):
                 alert('There was an error submitting your request.');
             });
     });
+
     document.getElementById('closePopup').addEventListener('click', function () {
         const popup = document.getElementById('popup');
         popup.classList.add('opacity-0');
         popup.firstElementChild.classList.add('scale-95');
         setTimeout(() => {
             popup.classList.add('hidden');
+            window.location.href = 'bookings.php';
         }, 300);
     });
 </script>

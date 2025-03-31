@@ -14,11 +14,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $features = array_map('trim', explode(',', $_POST['features'] ?? ''));
 
     try {
+        // Generate next available ID for the product
+        $stmt = $pdo->query("SELECT MAX(id) as max_id FROM products");
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        $next_id = ($result['max_id'] ?? 0) + 1;
+
+        // Insert into products table instead of list_item
         $stmt = $pdo->prepare(
-            "INSERT INTO list_item (name, category, description, price, price_type, deposit, status, image, features) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            "INSERT INTO products (id, name, category, description, price, price_type, deposit, status, image, features) 
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
         );
         $stmt->execute([
+            $next_id,
             $name,
             $category,
             $description,
@@ -40,7 +47,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
         <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">List Your Product for Rental</h2>
         <p class="text-center text-gray-600 mb-6">Please fill in the details below to list your product for rental.</p>
-        <?php if (isset($success) && $success): ?>
+        <?php if (isset($error_message)): ?>
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <?php echo htmlspecialchars($error_message); ?>
+            </div>
         <?php endif; ?>
         <form action="list_item.php" method="post" class="space-y-6">
             <div>
@@ -117,15 +127,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300">
         <div
             class="bg-white p-8 rounded-xl shadow-xl text-center max-w-sm w-full transform transition-all duration-300 scale-95">
-            <h2 class="text-2xl font-bold mb-4 text-green-600">Listing Submitted!</h2>
-            <p class="text-gray-700 mb-6">Your product has been successfully submitted for listing.</p>
-            <button id="closePopup"
-                class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
-                Close
-            </button>
+            <h2 class="text-2xl font-bold mb-4 text-green-600">Product Added Successfully!</h2>
+            <p class="text-gray-700 mb-6">Your product has been successfully added to our rental inventory.</p>
+            <div class="flex gap-3 justify-center">
+                <button id="closePopup"
+                    class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
+                    List Another Item
+                </button>
+                <a href="browse.php"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
+                    View All Products
+                </a>
+            </div>
         </div>
     </div>
 </main>
+
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         <?php if (isset($success) && $success): ?>
@@ -136,12 +153,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 popup.firstElementChild.classList.remove('scale-95');
             }, 50);
         <?php endif; ?>
+
         document.getElementById('closePopup').addEventListener('click', function () {
             const popup = document.getElementById('popup');
             popup.classList.add('opacity-0');
             popup.firstElementChild.classList.add('scale-95');
             setTimeout(() => {
                 popup.classList.add('hidden');
+                location.reload(); // Reload the page to clear the form
             }, 300);
         });
     });

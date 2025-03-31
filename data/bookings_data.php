@@ -18,17 +18,6 @@ try {
     error_log($e->getMessage());
     $bookings = [];
 }
-try {
-    $query = "SELECT rent_item.*, products.name AS item_name, 'requested' AS status 
-              FROM rent_item 
-              JOIN products ON rent_item.product_id = products.id";
-    $stmt = $pdo->prepare($query);
-    $stmt->execute();
-    $rentItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
-} catch (PDOException $e) {
-    error_log($e->getMessage());
-    $rentItems = [];
-}
 
-$bookings = array_merge($bookings, $rentItems);
+// Removed rent_item query since we're now directly inserting to bookings table
 ?>

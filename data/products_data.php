@@ -27,15 +27,7 @@ try {
     $products = [];
 }
 
-try {
-    $stmt = $pdo->query('SELECT * FROM list_item');
-    $listItems = $stmt->fetchAll();
-    if (is_array($listItems)) {
-        $products = array_merge($products, $listItems);
-    }
-} catch (PDOException $e) {
-    error_log("List items query error: " . $e->getMessage());
-}
+// Removed list_item query since we're now directly inserting to products table
 
 $categories = [
     'tech' => ['name' => 'Electronics', 'icon' => 'fas fa-laptop'],
