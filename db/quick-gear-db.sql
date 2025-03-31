@@ -90,7 +90,6 @@ ALTER TABLE bookings
 ADD CONSTRAINT fk_bookings_product
 FOREIGN KEY (product_id) REFERENCES products(id);
 
--- Fix the syntax error in the foreign key constraint
 ALTER TABLE bookings
 ADD CONSTRAINT fk_bookings_user
 FOREIGN KEY (user_id) REFERENCES users(id);
