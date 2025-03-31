@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 ?>
 <main class="container mx-auto py-8">
-    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8">
+    <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
         <h2 class="text-3xl font-bold text-gray-800 mb-2 text-center">List Your Product for Rental</h2>
         <p class="text-center text-gray-600 mb-6">Please fill in the details below to list your product for rental.</p>
         <?php if (isset($error_message)): ?>
