@@ -20,30 +20,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_date = $_POST['end_date'] ?? '';
     $message = $_POST['message'] ?? '';
 
-    try {
-        $stmt = $pdo->query("SHOW COLUMNS FROM bookings LIKE 'full_name'");
-        $hasFullName = $stmt->rowCount() > 0;
+    $stmt = $pdo->query("SELECT IFNULL(MAX(id), 0) + 1 AS next_id FROM bookings");
+    $nextId = $stmt->fetchColumn();
+    $pdo->exec("ALTER TABLE bookings AUTO_INCREMENT = $nextId");
 
-        if (!$hasFullName) {
-            $pdo->exec("ALTER TABLE bookings 
-                ADD COLUMN full_name VARCHAR(255) NOT NULL AFTER product_id,
-                ADD COLUMN email VARCHAR(255) NOT NULL AFTER full_name,
-                ADD COLUMN phone VARCHAR(50) NOT NULL AFTER email,
-                ADD COLUMN message TEXT AFTER end_date");
-        }
-
-        $stmt = $pdo->query("SELECT IFNULL(MAX(id), 0) + 1 AS next_id FROM bookings");
-        $nextId = $stmt->fetchColumn();
-        $pdo->exec("ALTER TABLE bookings AUTO_INCREMENT = $nextId");
-
-        $stmt = $pdo->prepare("INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) 
-                              VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
-        $stmt->execute([$user_id, $product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
-        echo 'success';
-    } catch (PDOException $e) {
-        error_log("Insert error: " . $e->getMessage());
-        echo 'error';
-    }
+    $stmt = $pdo->prepare("INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) 
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+    $stmt->execute([$user_id, $product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
+    echo 'success';
     exit();
 }
 
