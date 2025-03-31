@@ -49,12 +49,10 @@ include './includes/header.php';
 $user_id = $_SESSION['user_id'];
 $user_data = [];
 
-// Get user data dynamically based on session
 try {
     require_once './data/users_data.php';
     $user_data = getUserById($user_id);
     if (!$user_data) {
-        // Handle error - couldn't load user data
         $user_data = [
             'full_name' => '',
             'email' => '',

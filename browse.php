@@ -135,7 +135,7 @@ require_once './data/products_data.php'; ?>
                                 <span class="text-gray-500">per ${product.price_type}</span>
                                 <p class="text-sm text-gray-500">Deposit: ₹${product.deposit.toLocaleString()}</p>
                             </div>
-                            <button onclick="location.href='rent.php?id=${product.id}'" class="bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-blue-700">
+                            <button onclick="location.href='rent_item.php?id=${product.id}'" class="bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors duration-300 hover:bg-blue-700">
                                 Rent Now
                             </button>
                         </div>
