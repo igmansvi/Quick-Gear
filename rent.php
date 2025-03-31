@@ -1,4 +1,7 @@
 <?php
+require_once './includes/init.php';
+requireLogin();
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once './data/products_data.php';
 
@@ -8,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 
+    $user_id = $_SESSION['user_id'];
     $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
-    $user_id = 1;
     $full_name = $_POST['full_name'] ?? '';
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -43,27 +46,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once './data/products_data.php';
 include './includes/header.php';
 
-$user_id = 1;
-$user_data = [
-    'full_name' => '',
-    'email' => '',
-    'phone' => ''
-];
+$user_id = $_SESSION['user_id'];
+$user_data = [];
 
+// Get user data dynamically based on session
 try {
-    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
-    $stmt->execute([$user_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($user) {
+    require_once './data/users_data.php';
+    $user_data = getUserById($user_id);
+    if (!$user_data) {
+        // Handle error - couldn't load user data
         $user_data = [
-            'full_name' => $user['full_name'] ?? '',
-            'email' => $user['email'] ?? '',
-            'phone' => $user['phone'] ?? ''
+            'full_name' => '',
+            'email' => '',
+            'phone' => ''
         ];
     }
-} catch (PDOException $e) {
-    error_log("Error retrieving user data: " . $e->getMessage());
+} catch (Exception $e) {
+    error_log("Error loading user data: " . $e->getMessage());
+    $user_data = [
+        'full_name' => '',
+        'email' => '',
+        'phone' => ''
+    ];
 }
 
 $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -83,7 +87,8 @@ if (!$product):
     </main>
 <?php else: ?>
     <main class="container mx-auto py-8">
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
+        <div
+            class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div class="flex items-center justify-center">
                     <img src="<?php echo $product['image']; ?>" alt="<?php echo htmlspecialchars($product['name']); ?>"
@@ -112,7 +117,7 @@ if (!$product):
                 <h3 class="text-xl font-bold text-gray-800 mb-4 text-center">Rental Request</h3>
                 <form action="#" id="rentalForm" method="post" class="space-y-4">
                     <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                    <input type="hidden" name="user_id" value="0">
+                    <input type="hidden" name="user_id" value="<?php echo $_SESSION['user_id']; ?>">
 
                     <div>
                         <label class="block text-gray-700 text-sm font-medium mb-1">Full Name</label>
@@ -138,45 +143,47 @@ if (!$product):
                     </div>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div>
-                            <label class="block text-gray-700 text-sm font-medium mb-1">Start Date</label>
-                            <input type="date" name="start_date" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
-                        <div>
-                            <label class="block text-gray-700 text-sm font-medium mb-1">End Date</label>
-                            <input type="date" name="end_date" required
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
-                        </div>
+                        <div></div>
                     </div>
-
-                    <div>
-                        <label class="block text-gray-700 text-sm font-medium mb-1">Additional Message</label>
-                        <textarea name="message" rows="3"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
-                            placeholder="Any special requirements?"></textarea>
-                    </div>
-
-                    <div>
-                        <button type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors duration-300">Submit
-                            Request</button>
-                    </div>
-                </form>
+                    <label class="block text-gray-700 text-sm font-medium mb-1">Start Date</label>
+                    <input type="date" name="start_date" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
             </div>
+            <div>
+                <label class="block text-gray-700 text-sm font-medium mb-1">End Date</label>
+                <input type="date" name="end_date" required
+                    class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition">
+            </div>
+        </div>
+
+        <div>
+            <label class="block text-gray-700 text-sm font-medium mb-1">Additional Message</label>
+            <textarea name="message" rows="3"
+                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 transition"
+                placeholder="Any special requirements?"></textarea>
+        </div>
+
+        <div>
+            <button type="submit"
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-2 rounded-lg transition-colors duration-300">Submit
+                Request</button>
+        </div>
+        </form>
+        </div>
         </div>
     </main>
 <?php endif; ?>
 
 <div id="popup"
     class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden opacity-0 transition-opacity duration-300">
-    <div
-        class="bg-white p-8 rounded-xl shadow-xl text-center max-w-sm w-full transform transition-all duration-300 scale-95">
-        <h2 class="text-2xl font-bold mb-4 text-green-600">Request Received</h2>
-        <p class="text-gray-700 mb-6">Thank you! Your rental request has been received.</p>
-        <button id="closePopup"
-            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">Close</button>
-    </div>
+</div>
+<div
+    class="bg-white p-8 rounded-xl shadow-xl text-center max-w-sm w-full transform transition-all duration-300 scale-95">
+    <h2 class="text-2xl font-bold mb-4 text-green-600">Request Received</h2>
+    <p class="text-gray-700 mb-6">Thank you! Your rental request has been received.</p>
+    <button id="closePopup"
+        class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">Close</button>
+</div>
 </div>
 
 <script>

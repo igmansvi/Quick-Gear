@@ -1,4 +1,10 @@
-<?php require_once './data/products_data.php'; ?>
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+require_once './data/products_data.php'; ?>
 <!DOCTYPE html>
 <html lang="en">
 

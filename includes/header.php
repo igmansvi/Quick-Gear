@@ -21,9 +21,10 @@
             Bookings
         </a>
     </nav>
-    <a id="nav-user" href="index.php"
+    <a id="nav-user" href="<?php echo isset($_SESSION['user_id']) ? 'profile.php' : 'login.php'; ?>"
         class="user-btn relative bg-[#3a86ff] text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a8dadc] hover:text-[#2b2d42] hover:-translate-y-0.5 hover:shadow-lg flex items-center gap-2 overflow-hidden group">
-        <span class="relative z-10">User</span>
+        <span
+            class="relative z-10"><?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'User'; ?></span>
         <span
             class="absolute inset-0 bg-gradient-to-r from-[#3a86ff] to-[#a8dadc] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
         <i class="fas fa-user relative z-10"></i>
