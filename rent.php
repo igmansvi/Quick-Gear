@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
-    $user_id = 0;
+    $user_id = 1;
     $full_name = $_POST['full_name'] ?? '';
     $email = $_POST['email'] ?? '';
     $phone = $_POST['phone'] ?? '';
@@ -17,14 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $end_date = $_POST['end_date'] ?? '';
     $message = $_POST['message'] ?? '';
 
-    // Ensure the bookings table has all required fields
     try {
-        // Check if the bookings table has the necessary columns
         $stmt = $pdo->query("SHOW COLUMNS FROM bookings LIKE 'full_name'");
         $hasFullName = $stmt->rowCount() > 0;
 
         if (!$hasFullName) {
-            // Add the missing columns to the bookings table
             $pdo->exec("ALTER TABLE bookings 
                 ADD COLUMN full_name VARCHAR(255) NOT NULL AFTER product_id,
                 ADD COLUMN email VARCHAR(255) NOT NULL AFTER full_name,
@@ -32,7 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 ADD COLUMN message TEXT AFTER end_date");
         }
 
-        // Insert directly into bookings table with all fields
         $stmt = $pdo->prepare("INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) 
                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
         $stmt->execute([$user_id, $product_id, $full_name, $email, $phone, $start_date, $end_date, $message]);
@@ -47,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 require_once './data/products_data.php';
 include './includes/header.php';
 
-$user_id = 0;
+$user_id = 1;
 $user_data = [
     'full_name' => '',
     'email' => '',

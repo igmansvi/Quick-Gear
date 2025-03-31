@@ -26,9 +26,6 @@ try {
     error_log("Products query error: " . $e->getMessage());
     $products = [];
 }
-
-// Removed list_item query since we're now directly inserting to products table
-
 $categories = [
     'tech' => ['name' => 'Electronics', 'icon' => 'fas fa-laptop'],
     'tools' => ['name' => 'Tools', 'icon' => 'fas fa-tools'],

@@ -10,7 +10,7 @@ try {
     $query = "SELECT bookings.*, products.name AS item_name 
               FROM bookings 
               JOIN products ON bookings.product_id = products.id 
-              WHERE bookings.user_id = 0";
+              WHERE bookings.user_id = 1";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $bookings = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -18,6 +18,4 @@ try {
     error_log($e->getMessage());
     $bookings = [];
 }
-
-// Removed rent_item query since we're now directly inserting to bookings table
 ?>
