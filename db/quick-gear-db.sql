@@ -67,29 +67,19 @@ CREATE TABLE IF NOT EXISTS bookings (
     status VARCHAR(20) DEFAULT 'pending'
 );
 
--- Use a temporary way to get the IDs by using email addresses to reference users
--- Since this is just demo data, you can update the user_id manually after inserting
-
--- Insert demo data for bookings with multiple entries per user - use email instead of explicit IDs
+-- Insert demo data for bookings with multiple entries per user
 INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) VALUES
--- Admin bookings (use 1 as a placeholder - you'll need to update this with the actual ID after insertion)
 (1, 1, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-09-05', '2023-09-10', 'Testing the camera for a company event', 'completed'),
 (1, 3, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-09-15', '2023-09-17', 'Need DJ setup for staff party', 'completed'),
 (1, 5, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-10-01', '2023-10-02', 'Generator needed for outdoor shooting', 'completed'),
 (1, 7, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-12-15', '2023-12-16', 'Office lawn maintenance', 'confirmed'),
-
--- User bookings (use 2, 3, 4 as placeholders - update these after insertion)
 (2, 2, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-10-10', '2023-10-15', 'Weekend gaming session with friends', 'confirmed'),
 (2, 4, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-11-05', '2023-11-10', 'Need drone for sister\'s wedding shoot', 'pending'),
 (2, 6, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-12-20', '2023-12-25', 'Christmas decoration lighting setup', 'pending'),
-
--- User 2 (kiran) bookings
 (3, 1, 'kiran', 'kiran@example.in', '9876543212', '2023-10-20', '2023-10-25', 'Photography project for college assignment', 'completed'),
 (3, 3, 'kiran', 'kiran@example.in', '9876543212', '2023-11-15', '2023-11-18', 'Birthday party DJ setup', 'confirmed'),
 (3, 5, 'kiran', 'kiran@example.in', '9876543212', '2023-12-05', '2023-12-06', 'Power backup for home event', 'pending'),
 (3, 7, 'kiran', 'kiran@example.in', '9876543212', '2024-01-10', '2024-01-11', 'Garden maintenance at new house', 'pending'),
-
--- User 3 (varun) bookings
 (4, 2, 'varun', 'varun@example.in', '9876543213', '2023-09-25', '2023-09-30', 'Gaming night with colleagues', 'completed'),
 (4, 4, 'varun', 'varun@example.in', '9876543213', '2023-10-30', '2023-11-05', 'Drone footage for travel vlog', 'completed'),
 (4, 6, 'varun', 'varun@example.in', '9876543213', '2023-11-25', '2023-11-30', 'Product photography lighting', 'confirmed'),
