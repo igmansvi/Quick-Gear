@@ -8,7 +8,8 @@ include './data/bookings_data.php';
         <?php foreach ($bookings as $booking): ?>
             <?php
             $statusColor = ($booking['status'] === 'confirmed') ? '#2ecc71' :
-                (($booking['status'] === 'pending') ? '#f1c40f' : '#e74c3c');
+                (($booking['status'] === 'pending') ? '#f1c40f' :
+                    (($booking['status'] === 'requested') ? '#3498db' : '#e74c3c'));
             ?>
             <div class="relative bg-white p-6 rounded-xl shadow-lg transition transform hover:scale-105 hover:shadow-2xl">
                 <div class="absolute inset-y-0 left-0 w-1 rounded-r-xl"

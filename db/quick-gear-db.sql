@@ -48,10 +48,11 @@ INSERT INTO bookings (user_id, product_id, start_date, end_date, status) VALUES
 (0, 3, '2023-10-05', '2023-10-07', 'pending'),
 (0, 4, '2023-10-20', '2023-10-27', 'confirmed');
 
--- Update the rent_item table to store full request details
+-- Create the rent_item table to store full request details, including current user id
 CREATE TABLE IF NOT EXISTS rent_item (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
+    user_id INT NOT NULL DEFAULT 0,
     full_name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     phone VARCHAR(50) NOT NULL,
@@ -62,9 +63,9 @@ CREATE TABLE IF NOT EXISTS rent_item (
 );
 
 -- Insert demo data for rent_item
-INSERT INTO rent_item (product_id, full_name, email, phone, start_date, end_date, message) VALUES
-(2, 'John Doe', 'john@example.com', '1234567890', '2023-10-12', '2023-10-14', 'Looking forward to this rental.'),
-(3, 'Jane Smith', 'jane@example.com', '0987654321', '2023-10-08', '2023-10-10', 'Please confirm availability.');
+INSERT INTO rent_item (product_id, user_id, full_name, email, phone, start_date, end_date, message) VALUES
+(2, 0, 'Raj Kumar', 'raj@example.in', '9876543210', '2023-10-12', '2023-10-14', 'Excited to rent this item.'),
+(3, 0, 'Priya Sharma', 'priya@example.in', '8765432190', '2023-10-08', '2023-10-10', 'Please confirm availability.');
 
 -- Add foreign key constraint for rent_item table
 ALTER TABLE rent_item
