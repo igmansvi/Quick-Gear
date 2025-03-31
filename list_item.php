@@ -14,12 +14,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $features = array_map('trim', explode(',', $_POST['features'] ?? ''));
 
     try {
-        // Generate next available ID for the product
         $stmt = $pdo->query("SELECT MAX(id) as max_id FROM products");
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         $next_id = ($result['max_id'] ?? 0) + 1;
 
-        // Insert into products table instead of list_item
         $stmt = $pdo->prepare(
             "INSERT INTO products (id, name, category, description, price, price_type, deposit, status, image, features) 
              VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -160,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             popup.firstElementChild.classList.add('scale-95');
             setTimeout(() => {
                 popup.classList.add('hidden');
-                location.reload(); // Reload the page to clear the form
+                location.reload();
             }, 300);
         });
     });
