@@ -94,12 +94,16 @@ ALTER TABLE bookings
 ADD CONSTRAINT fk_bookings_user
 FOREIGN KEY (user_id) REFERENCES users(id);
 
--- Query to update bookings dates randomly in past 6 months
-UPDATE bookings AS b
-JOIN (
-    SELECT id,
-    DATE(FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(CURRENT_DATE()) - (RAND() * 15552000)))) AS new_start
-    FROM bookings
-) AS t ON b.id = t.id
-SET b.start_date = t.new_start,
-    b.end_date = DATE_ADD(t.new_start, INTERVAL FLOOR(1 + RAND() * 5) DAY);
+-- Improved query to update bookings dates randomly in past 6 months
+UPDATE bookings
+SET start_date = DATE_SUB(CURRENT_DATE, INTERVAL FLOOR(RAND() * 180) DAY),
+    booking_date = DATE_SUB(CURRENT_DATE, INTERVAL FLOOR(RAND() * 190) DAY);
+
+-- Update end dates based on new start dates (1-7 days rental period)
+UPDATE bookings
+SET end_date = DATE_ADD(start_date, INTERVAL FLOOR(1 + RAND() * 6) DAY);
+
+-- Ensure booking_date is before start_date
+UPDATE bookings
+SET booking_date = DATE_SUB(start_date, INTERVAL FLOOR(1 + RAND() * 10) DAY)
+WHERE booking_date >= start_date;

@@ -90,25 +90,31 @@ try {
     $stats = $statsStmt->fetch();
 
     // Add dynamic queries for charts -----------------------------------------
-    $trendQuery = "SELECT MONTH(booking_date) AS month_num, 
+    $trendQuery = "SELECT 
+                   MONTH(booking_date) AS month_num, 
                    DATE_FORMAT(booking_date, '%b') AS month, 
                    COUNT(*) as booking_count 
                    FROM bookings 
-                   GROUP BY month_num 
-                   ORDER BY month_num";
+                   WHERE booking_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+                   GROUP BY month_num, month 
+                   ORDER BY booking_date DESC 
+                   LIMIT 6";
     $trendStmt = $pdo->query($trendQuery);
-    $bookingTrendsData = $trendStmt->fetchAll(PDO::FETCH_ASSOC);
+    $bookingTrendsData = array_reverse($trendStmt->fetchAll(PDO::FETCH_ASSOC));
 
-    $revenueQuery = "SELECT MONTH(booking_date) AS month_num, 
+    $revenueQuery = "SELECT 
+                    MONTH(booking_date) AS month_num, 
                     DATE_FORMAT(booking_date, '%b') AS month, 
                     COALESCE(SUM(p.price * DATEDIFF(b.end_date, b.start_date)), 0) AS revenue 
                     FROM bookings b 
                     JOIN products p ON b.product_id = p.id 
                     WHERE b.status != 'cancelled' 
-                    GROUP BY month_num 
-                    ORDER BY month_num";
+                    AND booking_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+                    GROUP BY month_num, month 
+                    ORDER BY booking_date DESC 
+                    LIMIT 6";
     $revenueStmt = $pdo->query($revenueQuery);
-    $revenueData = $revenueStmt->fetchAll(PDO::FETCH_ASSOC);
+    $revenueData = array_reverse($revenueStmt->fetchAll(PDO::FETCH_ASSOC));
     // -------------------------------------------------------------------------
 
     // Add helper function after fetching $stats
