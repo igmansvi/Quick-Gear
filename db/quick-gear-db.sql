@@ -93,3 +93,13 @@ FOREIGN KEY (product_id) REFERENCES products(id);
 ALTER TABLE bookings
 ADD CONSTRAINT fk_bookings_user
 FOREIGN KEY (user_id) REFERENCES users(id);
+
+-- Query to update bookings dates randomly in past 6 months
+UPDATE bookings AS b
+JOIN (
+    SELECT id,
+    DATE(FROM_UNIXTIME(FLOOR(UNIX_TIMESTAMP(CURRENT_DATE()) - (RAND() * 15552000)))) AS new_start
+    FROM bookings
+) AS t ON b.id = t.id
+SET b.start_date = t.new_start,
+    b.end_date = DATE_ADD(t.new_start, INTERVAL FLOOR(1 + RAND() * 5) DAY);
