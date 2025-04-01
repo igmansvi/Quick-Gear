@@ -873,25 +873,26 @@ try {
                     modal.classList.add('hidden');
                 });
 
-                // Filtering bookings
-                const filterButton = document.getElementById('filter-button');
+                // Remove the non-existent filter button code and use the existing filters
                 const statusFilter = document.getElementById('status-filter');
                 const bookingRows = document.querySelectorAll('.booking-row');
 
-                filterButton.addEventListener('click', function () {
-                    const selectedStatus = statusFilter.value;
-                    bookingRows.forEach(row => {
-                        const rowStatus = row.getAttribute('data-status');
-                        if (!selectedStatus || rowStatus === selectedStatus) {
-                            row.style.display = '';
-                        } else {
-                            row.style.display = 'none';
-                        }
+                if (statusFilter) {
+                    statusFilter.addEventListener('change', () => {
+                        const selectedStatus = statusFilter.value;
+                        bookingRows.forEach(row => {
+                            const rowStatus = row.getAttribute('data-status');
+                            if (!selectedStatus || rowStatus === selectedStatus) {
+                                row.style.display = '';
+                            } else {
+                                row.style.display = 'none';
+                            }
+                        });
                     });
-                });
+                }
             });
 
-            // Product filtering functionality
+            // Product filtering functionality remains the same
             document.addEventListener('DOMContentLoaded', function () {
                 const productSearch = document.getElementById('product-search');
                 const categoryFilter = document.getElementById('category-filter');
@@ -922,7 +923,7 @@ try {
                     document.getElementById('coming-products').textContent = coming;
                 }
 
-                function applyProductFilters() {
+                applyProductFilters.addEventListener('click', () => {
                     const searchTerm = productSearch.value.toLowerCase();
                     const selectedCategory = categoryFilter.value.toLowerCase();
                     const selectedStatus = statusFilter.value.toLowerCase();
@@ -940,9 +941,7 @@ try {
                     });
 
                     updateProductStats();
-                }
-
-                applyProductFilters.addEventListener('click', applyProductFilters);
+                });
                 resetProductFilters.addEventListener('click', () => {
                     productSearch.value = '';
                     categoryFilter.value = '';
@@ -969,7 +968,7 @@ try {
                     document.getElementById('new-users').textContent = Math.floor(total * 0.3); // Simplified for demo
                 }
 
-                function applyUserFilters() {
+                applyUserFilters.addEventListener('click', () => {
                     const searchTerm = userSearch.value.toLowerCase();
 
                     userRows.forEach(row => {
@@ -980,9 +979,7 @@ try {
                     });
 
                     updateUserStats();
-                }
-
-                applyUserFilters.addEventListener('click', applyUserFilters);
+                });
                 resetUserFilters.addEventListener('click', () => {
                     userSearch.value = '';
                     userRows.forEach(row => row.style.display = '');
@@ -1086,278 +1083,6 @@ try {
             }
         </style>
     </main>
-</body>
-
-</html>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Common function to switch tabs
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(tabId).classList.remove('hidden');
-            event.target.classList.add('active');
-        }
-        window.switchTab = switchTab;
-
-        // Initialize Charts
-        const bookingTrends = new Chart(
-            document.getElementById('bookingTrends'),
-            {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Bookings',
-                        data: [12, 19, 3, 5, 2, 3],
-                        borderColor: 'rgb(59, 130, 246)',
-                    }]
-                }
-            }
-        );
-
-        const revenueChart = new Chart(
-            document.getElementById('revenueChart'),
-            {
-                type: 'bar',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Revenue (₹)',
-                        data: [15000, 25000, 18000, 30000, 28000, 35000],
-                        backgroundColor: 'rgba(59, 130, 246, 0.5)',
-                    }]
-                }
-            }
-        );
-
-        // Initialize flatpickr
-        flatpickr("#date-from", {});
-        flatpickr("#date-to", {});
-
-        // Product section functionality
-        const productSearch = document.getElementById('product-search');
-        const categoryFilter = document.getElementById('category-filter');
-        const productStatusFilter = document.getElementById('product-status-filter');
-        const productRows = document.querySelectorAll('#tab-products tbody tr');
-
-        function updateProductStats() {
-            let total = 0, available = 0, rented = 0, coming = 0;
-            productRows.forEach(row => {
-                if (row.style.display !== 'none') {
-                    total++;
-                    const status = row.querySelector('td:nth-child(5) span').textContent.trim().toLowerCase();
-                    if (status === 'available') available++;
-                    if (status === 'rented') rented++;
-                    if (status === 'coming_soon') coming++;
-                }
-            });
-
-            document.getElementById('total-products').textContent = total;
-            document.getElementById('available-products').textContent = available;
-            document.getElementById('rented-products').textContent = rented;
-            document.getElementById('coming-products').textContent = coming;
-        }
-
-        // Initialize product filters
-        document.getElementById('apply-product-filters').addEventListener('click', () => {
-            const searchTerm = productSearch.value.toLowerCase();
-            const selectedCategory = categoryFilter.value.toLowerCase();
-            const selectedStatus = productStatusFilter.value.toLowerCase();
-
-            productRows.forEach(row => {
-                const name = row.children[1].textContent.toLowerCase();
-                const category = row.children[2].textContent.toLowerCase();
-                const status = row.querySelector('td:nth-child(5) span').textContent.trim().toLowerCase();
-
-                const matchesSearch = name.includes(searchTerm) || category.includes(searchTerm);
-                const matchesCategory = !selectedCategory || category === selectedCategory;
-                const matchesStatus = !selectedStatus || status === selectedStatus;
-
-                row.style.display = (matchesSearch && matchesCategory && matchesStatus) ? '' : 'none';
-            });
-            updateProductStats();
-        });
-
-        document.getElementById('reset-product-filters').addEventListener('click', () => {
-            productSearch.value = '';
-            categoryFilter.value = '';
-            productStatusFilter.value = '';
-            productRows.forEach(row => row.style.display = '');
-            updateProductStats();
-        });
-
-        // User section functionality
-        const userSearch = document.getElementById('user-search');
-        const userRows = document.querySelectorAll('#user-table tbody tr');
-
-        function updateUserStats() {
-            const total = Array.from(userRows).filter(row => row.style.display !== 'none').length;
-            document.getElementById('total-users').textContent = total;
-            document.getElementById('active-users').textContent = total;
-            document.getElementById('new-users').textContent = Math.floor(total * 0.3);
-        }
-
-        // Initialize user filters
-        document.getElementById('apply-user-filters').addEventListener('click', () => {
-            const searchTerm = userSearch.value.toLowerCase();
-            userRows.forEach(row => {
-                const name = row.children[1].textContent.toLowerCase();
-                const email = row.children[2].textContent.toLowerCase();
-                row.style.display = (name.includes(searchTerm) || email.includes(searchTerm)) ? '' : 'none';
-            });
-            updateUserStats();
-        });
-
-        document.getElementById('reset-user-filters').addEventListener('click', () => {
-            userSearch.value = '';
-            userRows.forEach(row => row.style.display = '');
-            updateUserStats();
-        });
-
-        // User details modal functionality
-        const userModal = document.getElementById('userDetailsModal');
-        const closeUserModal = document.getElementById('closeUserModal');
-
-        document.querySelectorAll('.view-user-btn').forEach(button => {
-            button.addEventListener('click', async function () {
-                const userId = this.getAttribute('data-user-id');
-                const userData = JSON.parse(this.getAttribute('data-user'));
-
-                try {
-                    // Show loading state and basic user info
-                    document.getElementById('modal-user-name').textContent = userData.full_name;
-                    document.getElementById('modal-user-email').textContent = userData.email;
-                    document.getElementById('modal-user-phone').textContent = userData.phone || 'N/A';
-                    document.getElementById('modal-user-date').textContent = 'Loading...';
-                    document.getElementById('modal-user-bookings').textContent = 'Loading...';
-                    document.getElementById('modal-user-completed').textContent = 'Loading...';
-                    document.getElementById('modal-user-cancelled').textContent = 'Loading...';
-                    document.getElementById('modal-user-spent').textContent = 'Loading...';
-                    document.getElementById('modal-user-recent-bookings').innerHTML = '<p class="text-center py-4">Loading...</p>';
-
-                    userModal.classList.remove('hidden');
-                    userModal.style.display = 'flex';
-
-                    const response = await fetch(`admin.php?get_user_details=1&user_id=${userId}`);
-                    if (!response.ok) throw new Error('Network response was not ok');
-
-                    const data = await response.json();
-                    if (!data) throw new Error('No data received');
-
-                    // Update modal with fetched data
-                    document.getElementById('modal-user-date').textContent = new Date(userData.created_at).toLocaleDateString();
-                    document.getElementById('modal-user-bookings').textContent = data.stats.total_bookings || 0;
-                    document.getElementById('modal-user-completed').textContent = data.stats.completed_bookings || 0;
-                    document.getElementById('modal-user-cancelled').textContent = data.stats.cancelled_bookings || 0;
-                    document.getElementById('modal-user-spent').textContent = (data.stats.total_spent || 0).toLocaleString();
-
-                    // Update bookings list
-                    const bookingsContainer = document.getElementById('modal-user-recent-bookings');
-                    if (data.bookings && data.bookings.length > 0) {
-                        bookingsContainer.innerHTML = data.bookings.map(booking => `
-                        <div class="border-b p-2">
-                            <div class="flex justify-between">
-                                <span class="font-semibold">${booking.product_name}</span>
-                                <span class="text-sm">${new Date(booking.booking_date).toLocaleDateString()}</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span>${booking.start_date} to ${booking.end_date}</span>
-                                <span class="px-2 py-1 rounded-full text-xs ${booking.status === 'completed' ? 'bg-green-100 text-green-800' :
-                                booking.status === 'cancelled' ? 'bg-red-100 text-red-800' :
-                                    'bg-yellow-100 text-yellow-800'
-                            }">${booking.status}</span>
-                            </div>
-                        </div>
-                    `).join('');
-                    } else {
-                        bookingsContainer.innerHTML = '<p class="text-gray-500 text-center py-4">No bookings found</p>';
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    document.getElementById('modal-user-recent-bookings').innerHTML =
-                        '<p class="text-red-500 text-center py-4">Error loading user details</p>';
-                }
-            });
-        });
-
-        // Modal close handlers
-        closeUserModal.addEventListener('click', () => {
-            userModal.classList.add('hidden');
-            userModal.style.display = 'none';
-        });
-
-        userModal.addEventListener('click', (e) => {
-            if (e.target === userModal) {
-                userModal.classList.add('hidden');
-                userModal.style.display = 'none';
-            }
-        });
-
-        // Initialize stats on load
-        updateProductStats();
-        updateUserStats();
-    });
-</script>
-
-<script>
-    // ...existing code...
-
-    // Initialize all modals and event listeners
-    document.addEventListener('DOMContentLoaded', function () {
-        // Status update modal initialization
-        const statusModal = document.getElementById('statusModal');
-        const updateButtons = document.querySelectorAll('.update-status-btn');
-        const closeModalBtn = document.getElementById('closeModal');
-
-        updateButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                const bookingId = this.getAttribute('data-booking-id');
-                const currentStatus = this.closest('tr').querySelector('td:nth-child(5) span').textContent.trim();
-
-                document.getElementById('modal-booking-id').value = bookingId;
-                const currentStatusSpan = document.getElementById('current-status');
-                currentStatusSpan.textContent = currentStatus;
-
-                // Update status badge styling
-                currentStatusSpan.className = 'px-3 py-1 rounded-full text-sm font-semibold';
-                switch (currentStatus.toLowerCase()) {
-                    case 'pending':
-                        currentStatusSpan.classList.add('bg-yellow-100', 'text-yellow-800');
-                        break;
-                    case 'confirmed':
-                        currentStatusSpan.classList.add('bg-blue-100', 'text-blue-800');
-                        break;
-                    case 'completed':
-                        currentStatusSpan.classList.add('bg-green-100', 'text-green-800');
-                        break;
-                    case 'cancelled':
-                        currentStatusSpan.classList.add('bg-red-100', 'text-red-800');
-                        break;
-                }
-
-                document.getElementById('new-status').value = currentStatus.toLowerCase();
-                statusModal.classList.remove('hidden');
-                statusModal.style.display = 'flex';
-            });
-        });
-
-        closeModalBtn.addEventListener('click', function () {
-            statusModal.classList.add('hidden');
-            statusModal.style.display = 'none';
-        });
-
-        // Close modal when clicking outside
-        statusModal.addEventListener('click', function (e) {
-            if (e.target === statusModal) {
-                statusModal.classList.add('hidden');
-                statusModal.style.display = 'none';
-            }
-        });
-
-        // ...existing code...
-    });
-</script>
 </body>
 
 </html>
