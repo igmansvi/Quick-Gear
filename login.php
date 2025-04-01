@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="font-sans m-0 p-0 box-border bg-gray-100 min-h-screen flex items-center justify-center">
 
     <main class="container mx-auto py-16 px-4">
-        <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl">
+        <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
             <div class="text-center mb-8">
                 <i class="fas fa-tools text-4xl text-blue-600 mb-4"></i>
                 <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
