@@ -89,6 +89,28 @@ try {
     $statsStmt = $pdo->query($statsQuery);
     $stats = $statsStmt->fetch();
 
+    // Add dynamic queries for charts -----------------------------------------
+    $trendQuery = "SELECT MONTH(booking_date) AS month_num, 
+                   DATE_FORMAT(booking_date, '%b') AS month, 
+                   COUNT(*) as booking_count 
+                   FROM bookings 
+                   GROUP BY month_num 
+                   ORDER BY month_num";
+    $trendStmt = $pdo->query($trendQuery);
+    $bookingTrendsData = $trendStmt->fetchAll(PDO::FETCH_ASSOC);
+
+    $revenueQuery = "SELECT MONTH(booking_date) AS month_num, 
+                    DATE_FORMAT(booking_date, '%b') AS month, 
+                    COALESCE(SUM(p.price * DATEDIFF(b.end_date, b.start_date)), 0) AS revenue 
+                    FROM bookings b 
+                    JOIN products p ON b.product_id = p.id 
+                    WHERE b.status != 'cancelled' 
+                    GROUP BY month_num 
+                    ORDER BY month_num";
+    $revenueStmt = $pdo->query($revenueQuery);
+    $revenueData = $revenueStmt->fetchAll(PDO::FETCH_ASSOC);
+    // -------------------------------------------------------------------------
+
     // Add helper function after fetching $stats
     function renderCard($title, $value, $icon, $borderClass, $bgClass, $iconColor)
     {
@@ -801,17 +823,46 @@ try {
             }
 
             // Initialize charts
+            const bookingTrendsLabels = <?php echo json_encode(array_column($bookingTrendsData, 'month')); ?>;
+            const bookingTrendsCounts = <?php echo json_encode(array_map('intval', array_column($bookingTrendsData, 'booking_count'))); ?>;
+            const revenueLabels = <?php echo json_encode(array_column($revenueData, 'month')); ?>;
+            const revenueAmounts = <?php echo json_encode(array_map('floatval', array_column($revenueData, 'revenue'))); ?>;
+
             const bookingTrends = new Chart(
                 document.getElementById('bookingTrends'),
                 {
                     type: 'line',
                     data: {
-                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        labels: bookingTrendsLabels,
                         datasets: [{
                             label: 'Bookings',
-                            data: [12, 19, 3, 5, 2, 3],
+                            data: bookingTrendsCounts,
                             borderColor: 'rgb(59, 130, 246)',
                         }]
+                    }
+                }
+            );
+
+            const revenueChart = new Chart(
+                document.getElementById('revenueChart'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: revenueLabels,
+                        datasets: [{
+                            label: 'Revenue',
+                            data: revenueAmounts,
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
                     }
                 }
             );
