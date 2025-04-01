@@ -58,6 +58,7 @@ require_once './data/products_data.php'; ?>
                                        appearance-none cursor-pointer hover:bg-gray-100 transition-colors">
                                 <option value="">All Status</option>
                                 <option value="available">Available Now</option>
+                                <option value="rented">Rented</option>
                                 <option value="coming_soon">Coming Soon</option>
                             </select>
                             <i
