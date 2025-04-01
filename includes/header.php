@@ -21,14 +21,32 @@
             Bookings
         </a>
     </nav>
-    <a id="nav-user" href="<?php echo isset($_SESSION['user_id']) ? 'profile.php' : 'login.php'; ?>"
-        class="user-btn relative bg-[#3a86ff] text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a8dadc] hover:text-[#2b2d42] hover:-translate-y-0.5 hover:shadow-lg flex items-center gap-2 overflow-hidden group">
-        <span
-            class="relative z-10"><?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'User'; ?></span>
-        <span
-            class="absolute inset-0 bg-gradient-to-r from-[#3a86ff] to-[#a8dadc] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-        <i class="fas fa-user relative z-10"></i>
-    </a>
+    <div class="relative group">
+        <a id="nav-user" href="<?php echo isset($_SESSION['user_id']) ? 'profile.php' : 'login.php'; ?>"
+            class="user-btn relative bg-[#3a86ff] text-white border-none py-3 px-6 rounded-full font-semibold cursor-pointer transition-all duration-300 ease-in-out hover:bg-[#a8dadc] hover:text-[#2b2d42] hover:-translate-y-0.5 hover:shadow-lg flex items-center gap-2 overflow-hidden group">
+            <span
+                class="relative z-10"><?php echo isset($_SESSION['user_name']) ? htmlspecialchars($_SESSION['user_name']) : 'User'; ?></span>
+            <span
+                class="absolute inset-0 bg-gradient-to-r from-[#3a86ff] to-[#a8dadc] opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+            <i class="fas fa-user relative z-10"></i>
+        </a>
+
+        <!-- Dropdown menu -->
+        <div
+            class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50 scale-0 origin-top transition-all duration-300 group-hover:scale-100">
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="list_item.php"
+                    class="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200 flex items-center">
+                    <i class="fas fa-list mr-2 text-[#3a86ff]"></i> List Your Item
+                </a>
+                <div class="border-t border-gray-200"></div>
+                <a href="logout.php"
+                    class="block px-4 py-3 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200 flex items-center">
+                    <i class="fas fa-sign-out-alt mr-2 text-red-600"></i> Logout
+                </a>
+            <?php endif; ?>
+        </div>
+    </div>
 </header>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -60,5 +78,24 @@
                 link.classList.add('hover:bg-white/50');
             }
         });
+
+        // Add extra hover support for mobile devices
+        const userBtn = document.getElementById('nav-user');
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+
+        if (userBtn && dropdownMenu) {
+            // For touch devices
+            userBtn.addEventListener('touchstart', function (e) {
+                e.preventDefault();
+                dropdownMenu.classList.toggle('scale-100');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function (e) {
+                if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('scale-100');
+                }
+            });
+        }
     });
 </script>
