@@ -38,8 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
                 if (password_verify($password, $userData['password'])) {
                     $authenticated = true;
                     error_log("Hashed password match successful");
-                }
-                else if ($password === $userData['password']) {
+                } else if ($password === $userData['password']) {
                     $authenticated = true;
                     error_log("Plain text password match - security risk");
                 } else {
@@ -56,6 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
             $_SESSION['user_id'] = $userData['id'];
             $_SESSION['user_name'] = $userData['full_name'] ?? '';
             $_SESSION['user_email'] = $userData['email'];
+            $_SESSION['user_role'] = $userData['role'] ?? 'user';
 
             try {
                 $columnCheckStmt = $pdo->prepare("SHOW COLUMNS FROM users LIKE 'last_login'");
@@ -68,8 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
             } catch (PDOException $e) {
                 error_log("Could not update last_login: " . $e->getMessage());
             }
-
-            header("Location: index.php");
+            header("Location: " . (($_SESSION['user_role'] === 'admin') ? "admin.php" : "index.php"));
             exit();
         } else {
             $error_message = "Invalid email or password. Please try again.";
@@ -79,6 +78,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['email'], $_POST['pass
         $error_message = "An error occurred during login. Please try again later.";
     }
 }
+
 function getUserById($userId)
 {
     global $pdo;
