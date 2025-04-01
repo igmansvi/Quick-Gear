@@ -285,10 +285,10 @@ try {
 
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-2xl font-bold text-gray-800">Products</h3>
-                    <a href="list_item.php"
+                    <!-- <a href="list_item.php"
                         class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-plus mr-2"></i> Add New Product
-                    </a>
+                    </a> -->
                 </div>
 
                 <div class="overflow-x-auto">
