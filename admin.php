@@ -21,11 +21,9 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
-    // Handle AJAX request for user details
     if (isset($_GET['get_user_details']) && isset($_GET['user_id'])) {
         $userId = $_GET['user_id'];
 
-        // Get user stats and bookings in a single query
         $statsQuery = "SELECT 
             u.*,
             COUNT(b.id) as total_bookings,
@@ -42,7 +40,6 @@ try {
         $statsStmt->execute([$userId]);
         $userStats = $statsStmt->fetch();
 
-        // Get recent bookings separately
         $bookingsQuery = "SELECT b.*, p.name as product_name 
             FROM bookings b 
             JOIN products p ON b.product_id = p.id 
@@ -61,7 +58,6 @@ try {
         exit;
     }
 
-    // Add a query to fetch complete user details including booking history
     $userDetailsQuery = "SELECT 
         u.*,
         COUNT(b.id) as total_bookings,
@@ -76,7 +72,6 @@ try {
     $userDetailsStmt = $pdo->query($userDetailsQuery);
     $userDetails = $userDetailsStmt->fetchAll();
 
-    // Get dashboard statistics with proper amount calculation
     $statsQuery = "SELECT 
         (SELECT COUNT(*) FROM products) as total_products,
         (SELECT COUNT(*) FROM bookings) as total_bookings,
@@ -117,7 +112,6 @@ try {
     $revenueData = array_reverse($revenueStmt->fetchAll(PDO::FETCH_ASSOC));
     // -------------------------------------------------------------------------
 
-    // Add helper function after fetching $stats
     function renderCard($title, $value, $icon, $borderClass, $bgClass, $iconColor)
     {
         ?>
@@ -135,7 +129,6 @@ try {
         <?php
     }
 
-    // Handle booking status updates if form submitted
     if (isset($_POST['update_booking']) && isset($_POST['booking_id']) && isset($_POST['new_status'])) {
         $booking_id = $_POST['booking_id'];
         $new_status = $_POST['new_status'];
@@ -143,12 +136,10 @@ try {
         $updateStmt = $pdo->prepare("UPDATE bookings SET status = ? WHERE id = ?");
         $updateStmt->execute([$new_status, $booking_id]);
 
-        // Redirect to prevent form resubmission
         header("Location: admin.php?status_updated=1");
         exit();
     }
 
-    // Handle product updates
     if (isset($_POST['update_product']) && isset($_POST['product_id'])) {
         $product_id = $_POST['product_id'];
         $name = $_POST['product_name'];
@@ -159,12 +150,10 @@ try {
         $updateProductStmt = $pdo->prepare("UPDATE products SET name = ?, category = ?, price = ?, status = ? WHERE id = ?");
         $updateProductStmt->execute([$name, $category, $price, $status, $product_id]);
 
-        // Redirect to prevent form resubmission
         header("Location: admin.php?product_updated=1");
         exit();
     }
 
-    // Get bookings with optional date filter
     $dateFilter = "";
     $params = [];
     if (isset($_GET['date_from']) && isset($_GET['date_to'])) {
@@ -172,7 +161,6 @@ try {
         $params = [$_GET['date_from'], $_GET['date_to']];
     }
 
-    // Update bookings query to include rental duration and total amount
     $query = "SELECT b.*, 
               p.name AS product_name, 
               p.price AS product_price,
@@ -227,7 +215,6 @@ try {
         </div>
     </header>
 
-    <!-- Improved Navigation Tabs -->
     <nav class="bg-white shadow-sm mb-6">
         <div class="container mx-auto">
             <div class="flex gap-4 p-4">
@@ -240,7 +227,6 @@ try {
     </nav>
 
     <main class="container mx-auto py-8 px-4">
-        <!-- Dashboard Overview Section -->
         <div id="tab-dashboard" class="tab-content">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
                 <?php
@@ -250,7 +236,6 @@ try {
                 renderCard("Total Users", count($users), "fas fa-users", "border-purple-500", "bg-purple-100", "text-purple-500");
                 ?>
             </div>
-            <!-- Analytics Charts -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div class="bg-white rounded-xl shadow p-6">
                     <h3 class="text-xl font-semibold mb-4">Booking Trends</h3>
@@ -263,7 +248,6 @@ try {
             </div>
         </div>
 
-        <!-- Enhanced Products Section -->
         <div id="tab-products" class="tab-content hidden">
             <?php if (isset($_GET['product_updated'])): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded mb-6 relative" role="alert">
@@ -276,7 +260,6 @@ try {
                 </div>
             <?php endif; ?>
             <div class="bg-white rounded-xl shadow p-6">
-                <!-- Advanced Filtering -->
                 <div class="flex flex-wrap gap-4 mb-6">
                     <div class="flex-1 min-w-[200px]">
                         <input type="text" id="product-search" placeholder="Search by name or category..."
@@ -306,7 +289,6 @@ try {
                     </div>
                 </div>
 
-                <!-- Products Summary Stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-blue-50 p-3 rounded-lg">
                         <p class="text-sm text-blue-600">Total Products</p>
@@ -377,7 +359,6 @@ try {
             </div>
         </div>
 
-        <!-- Product Edit Modal -->
         <div id="productEditModal"
             class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
             <div class="bg-white rounded-lg shadow-xl p-6 w-96">
@@ -419,10 +400,8 @@ try {
             </div>
         </div>
 
-        <!-- JavaScript for Product Edit Modal -->
         <script>
             document.addEventListener('DOMContentLoaded', function () {
-                // Switch to products tab if there's a success message
                 if (window.location.href.includes('product_updated=1')) {
                     switchTab('tab-products');
                 }
@@ -455,7 +434,6 @@ try {
             });
         </script>
 
-        <!-- Enhanced Bookings Section -->
         <div id="tab-bookings" class="tab-content hidden">
             <?php if (isset($_GET['status_updated'])): ?>
                 <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded mb-6 relative" role="alert">
@@ -468,7 +446,6 @@ try {
                 </div>
             <?php endif; ?>
             <div class="bg-white rounded-xl shadow p-6">
-                <!-- Advanced Filtering -->
                 <div class="flex flex-wrap gap-4 mb-6">
                     <div class="flex-1 min-w-[200px]">
                         <input type="text" id="booking-search" placeholder="Search by product or user..."
@@ -495,7 +472,6 @@ try {
                     </div>
                 </div>
 
-                <!-- Add summary stats -->
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                     <div class="bg-blue-50 p-3 rounded-lg">
                         <p class="text-sm text-blue-600">Total Bookings</p>
@@ -644,7 +620,6 @@ try {
                             updateStats();
                         }
 
-                        // Event listeners
                         applyFilters.addEventListener('click', applyAllFilters);
                         resetFilters.addEventListener('click', function () {
                             bookingSearch.value = '';
@@ -655,17 +630,14 @@ try {
                             updateStats();
                         });
 
-                        // Initialize stats
                         updateStats();
                     });
                 </script>
             </div>
         </div>
 
-        <!-- Enhanced Users Section -->
         <div id="tab-users" class="tab-content hidden">
             <div class="bg-white rounded-xl shadow p-6">
-                <!-- User Filtering -->
                 <div class="flex flex-wrap gap-4 mb-6">
                     <div class="flex-1 min-w-[200px]">
                         <input type="text" id="user-search" placeholder="Search by name or email..."
@@ -683,7 +655,6 @@ try {
                     </div>
                 </div>
 
-                <!-- User Stats -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     <div class="bg-blue-50 p-4 rounded-lg">
                         <p class="text-sm text-blue-600">Total Users</p>
@@ -725,7 +696,7 @@ try {
                         <tbody>
                             <?php foreach ($users as $user): ?>
                                 <?php if (isset($user['role']) && $user['role'] === 'admin')
-                                    continue; // Remove admin data ?>
+                                    continue; ?>
                                 <tr class="text-center hover:bg-gray-50">
                                     <td class="py-1 px-2 border"><?php echo $user['id']; ?></td>
                                     <td class="py-1 px-2 border"><?php echo htmlspecialchars($user['full_name']); ?></td>
@@ -752,7 +723,6 @@ try {
             </div>
         </div>
 
-        <!-- Status Update Modal -->
         <div id="statusModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
             <div class="bg-white rounded-lg shadow-xl p-6 w-96">
                 <h3 class="text-xl font-bold mb-4">Update Booking Status</h3>
@@ -784,7 +754,6 @@ try {
             </div>
         </div>
 
-        <!-- User Details Modal -->
         <div id="userDetailsModal"
             class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
             <div class="bg-white rounded-lg shadow-xl p-6 w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -813,14 +782,12 @@ try {
                 <div class="mt-4">
                     <h4 class="font-semibold mb-2">Recent Bookings</h4>
                     <div id="modal-user-recent-bookings" class="max-h-60 overflow-y-auto">
-                        <!-- Recent bookings will be populated here -->
                     </div>
                 </div>
             </div>
         </div>
 
         <script>
-            // Enhanced tab switching with active state
             function switchTab(tabId) {
                 document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
                 document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -873,11 +840,9 @@ try {
                 }
             );
 
-            // Initialize flatpickr for date inputs
             flatpickr("#date-from", {});
             flatpickr("#date-to", {});
 
-            // User Filter functionality
             document.getElementById('user-filter-btn').addEventListener('click', function () {
                 const filterValue = document.getElementById('user-filter').value.toLowerCase();
                 const rows = document.querySelectorAll('#user-table tbody tr');
@@ -888,7 +853,6 @@ try {
             });
 
             document.addEventListener('DOMContentLoaded', function () {
-                // Status update modal
                 const modal = document.getElementById('statusModal');
                 const updateButtons = document.querySelectorAll('.update-status-btn');
                 const closeModalBtn = document.getElementById('closeModal');
@@ -902,7 +866,6 @@ try {
                         const currentStatusSpan = document.getElementById('current-status');
                         currentStatusSpan.textContent = status;
 
-                        // Apply appropriate styling to current status badge
                         currentStatusSpan.className = 'px-3 py-1 rounded-full text-sm font-semibold';
                         switch (status) {
                             case 'pending':
@@ -930,7 +893,6 @@ try {
                     modal.classList.add('hidden');
                 });
 
-                // Remove the non-existent filter button code and use the existing filters
                 const statusFilter = document.getElementById('status-filter');
                 const bookingRows = document.querySelectorAll('.booking-row');
 
@@ -949,7 +911,6 @@ try {
                 }
             });
 
-            // Product filtering functionality remains the same
             document.addEventListener('DOMContentLoaded', function () {
                 const productSearch = document.getElementById('product-search');
                 const categoryFilter = document.getElementById('category-filter');
@@ -1007,11 +968,9 @@ try {
                     updateProductStats();
                 });
 
-                // Initialize stats
                 updateProductStats();
             });
 
-            // User filtering functionality
             document.addEventListener('DOMContentLoaded', function () {
                 const userSearch = document.getElementById('user-search');
                 const applyUserFilters = document.getElementById('apply-user-filters');
@@ -1043,11 +1002,9 @@ try {
                     updateUserStats();
                 });
 
-                // Initialize stats
                 updateUserStats();
             });
 
-            // User Details Modal
             const userModal = document.getElementById('userDetailsModal');
             const closeUserModal = document.getElementById('closeUserModal');
             const viewUserButtons = document.querySelectorAll('.view-user-btn');
@@ -1058,7 +1015,6 @@ try {
                     const userData = JSON.parse(this.getAttribute('data-user'));
 
                     try {
-                        // Show loading state
                         document.getElementById('modal-user-name').textContent = userData.full_name;
                         document.getElementById('modal-user-email').textContent = userData.email;
                         document.getElementById('modal-user-phone').textContent = userData.phone || 'N/A';
@@ -1069,25 +1025,21 @@ try {
                         document.getElementById('modal-user-spent').textContent = 'Loading...';
                         document.getElementById('modal-user-recent-bookings').innerHTML = '<p class="text-center py-4">Loading...</p>';
 
-                        // Show modal
                         userModal.classList.remove('hidden');
                         userModal.style.display = 'flex';
 
-                        // Fetch user details
                         const response = await fetch(`admin.php?get_user_details=1&user_id=${userId}`);
                         if (!response.ok) throw new Error('Network response was not ok');
 
                         const data = await response.json();
                         if (!data) throw new Error('No data received');
 
-                        // Update modal with fetched data
                         document.getElementById('modal-user-date').textContent = new Date(userData.created_at).toLocaleDateString();
                         document.getElementById('modal-user-bookings').textContent = data.stats.total_bookings || 0;
                         document.getElementById('modal-user-completed').textContent = data.stats.completed_bookings || 0;
                         document.getElementById('modal-user-cancelled').textContent = data.stats.cancelled_bookings || 0;
                         document.getElementById('modal-user-spent').textContent = (data.stats.total_spent || 0).toLocaleString();
 
-                        // Update bookings list
                         const bookingsContainer = document.getElementById('modal-user-recent-bookings');
                         if (data.bookings && data.bookings.length > 0) {
                             bookingsContainer.innerHTML = data.bookings.map(booking => `
@@ -1121,7 +1073,6 @@ try {
                 userModal.style.display = 'none';
             });
 
-            // Close modal when clicking outside
             userModal.addEventListener('click', (e) => {
                 if (e.target === userModal) {
                     userModal.classList.add('hidden');

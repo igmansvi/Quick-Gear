@@ -31,7 +31,6 @@
             <i class="fas fa-user relative z-10"></i>
         </a>
 
-        <!-- Dropdown menu -->
         <div
             class="dropdown-menu absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg overflow-hidden z-50 scale-0 origin-top transition-all duration-300 group-hover:scale-100">
             <?php if (isset($_SESSION['user_id'])): ?>
@@ -79,18 +78,15 @@
             }
         });
 
-        // Add extra hover support for mobile devices
         const userBtn = document.getElementById('nav-user');
         const dropdownMenu = document.querySelector('.dropdown-menu');
 
         if (userBtn && dropdownMenu) {
-            // For touch devices
             userBtn.addEventListener('touchstart', function (e) {
                 e.preventDefault();
                 dropdownMenu.classList.toggle('scale-100');
             });
 
-            // Close dropdown when clicking outside
             document.addEventListener('click', function (e) {
                 if (!userBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
                     dropdownMenu.classList.remove('scale-100');
