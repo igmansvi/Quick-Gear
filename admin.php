@@ -1284,6 +1284,65 @@ try {
         updateUserStats();
     });
 </script>
+
+<script>
+    // ...existing code...
+
+    // Initialize all modals and event listeners
+    document.addEventListener('DOMContentLoaded', function () {
+        // Status update modal initialization
+        const statusModal = document.getElementById('statusModal');
+        const updateButtons = document.querySelectorAll('.update-status-btn');
+        const closeModalBtn = document.getElementById('closeModal');
+
+        updateButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const bookingId = this.getAttribute('data-booking-id');
+                const currentStatus = this.closest('tr').querySelector('td:nth-child(5) span').textContent.trim();
+
+                document.getElementById('modal-booking-id').value = bookingId;
+                const currentStatusSpan = document.getElementById('current-status');
+                currentStatusSpan.textContent = currentStatus;
+
+                // Update status badge styling
+                currentStatusSpan.className = 'px-3 py-1 rounded-full text-sm font-semibold';
+                switch (currentStatus.toLowerCase()) {
+                    case 'pending':
+                        currentStatusSpan.classList.add('bg-yellow-100', 'text-yellow-800');
+                        break;
+                    case 'confirmed':
+                        currentStatusSpan.classList.add('bg-blue-100', 'text-blue-800');
+                        break;
+                    case 'completed':
+                        currentStatusSpan.classList.add('bg-green-100', 'text-green-800');
+                        break;
+                    case 'cancelled':
+                        currentStatusSpan.classList.add('bg-red-100', 'text-red-800');
+                        break;
+                }
+
+                document.getElementById('new-status').value = currentStatus.toLowerCase();
+                statusModal.classList.remove('hidden');
+                statusModal.style.display = 'flex';
+            });
+        });
+
+        closeModalBtn.addEventListener('click', function () {
+            statusModal.classList.add('hidden');
+            statusModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        statusModal.addEventListener('click', function (e) {
+            if (e.target === statusModal) {
+                statusModal.classList.add('hidden');
+                statusModal.style.display = 'none';
+            }
+        });
+
+        // ...existing code...
+    });
+</script>
 </body>
 
 </html>
