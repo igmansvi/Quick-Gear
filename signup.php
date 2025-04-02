@@ -58,9 +58,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->execute([$email]);
 
             if ($stmt->rowCount() > 0) {
-                $error_message = "Email address is already registered. Please login instead.";
+                $error_message = "Email address is already registered. <a href='login.php?email=" . urlencode($email) . "' class='font-medium underline'>Login here</a> instead.";
             } else {
-
                 $stmt = $pdo->prepare("INSERT INTO users (full_name, email, password, phone, role, created_at) VALUES (?, ?, ?, ?, 'user', NOW())");
                 $stmt->execute([$full_name, $email, $password, $phone]);
 
@@ -149,6 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <div class="relative">
                             <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                             <input type="email" name="email" id="email" required
+                                value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>"
                                 class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                         </div>
                         <p id="emailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email address</p>

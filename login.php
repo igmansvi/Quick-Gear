@@ -1,5 +1,5 @@
 <?php
-require_once './includes/init.php'; 
+require_once './includes/init.php';
 if (isLoggedIn()) {
     header("Location: index.php");
     exit();
@@ -11,7 +11,56 @@ if (isset($_GET['timeout']) && $_GET['timeout'] == 1) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once './data/users_data.php';
+    $host = 'localhost';
+    $dbname = 'quick-gear-db';
+    $user = 'root';
+    $pass = '';
+    $charset = 'utf8mb4';
+
+    $dsn = "mysql:host=$host;dbname=$dbname;charset=$charset";
+    $options = [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ];
+
+    try {
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = $_POST['password'] ?? '';
+
+        if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error_message = "Please enter a valid email address";
+        } elseif (empty($password)) {
+            $error_message = "Please enter your password";
+        } else {
+            $pdo = new PDO($dsn, $user, $pass, $options);
+
+            $stmt = $pdo->prepare("SELECT id, email, password, full_name, role FROM users WHERE email = ?");
+            $stmt->execute([$email]);
+            $user = $stmt->fetch();
+
+            if (!$user) {
+                $error_message = "Email not found. <a href='signup.php?email=" . urlencode($email) . "' class='font-medium underline'>Sign up</a> to create a new account.";
+            } elseif ($user['password'] !== $password) {
+                $error_message = "Invalid password. Please try again.";
+            } else {
+                $_SESSION['user_id'] = $user['id'];
+                $_SESSION['user_email'] = $user['email'];
+                $_SESSION['user_name'] = $user['full_name'];
+                $_SESSION['user_role'] = $user['role'];
+
+                if ($user['role'] === 'admin') {
+                    header("Location: admin/dashboard.php");
+                } else {
+                    header("Location: index.php");
+                }
+                exit();
+            }
+        }
+    } catch (PDOException $e) {
+        error_log($e->getMessage());
+        $error_message = "An error occurred during login. Please try again later.";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -41,7 +90,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="font-sans m-0 p-0 box-border bg-gray-100 min-h-screen flex items-center justify-center">
 
     <main class="container mx-auto py-16 px-4">
-        <div class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
+        <div
+            class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
             <div class="text-center mb-8">
                 <i class="fas fa-tools text-4xl text-blue-600 mb-4"></i>
                 <h2 class="text-3xl font-bold text-gray-800">Welcome Back</h2>
@@ -52,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg">
                     <div class="flex items-center">
                         <i class="fas fa-exclamation-circle mr-2"></i>
-                        <p><?php echo htmlspecialchars($error_message); ?></p>
+                        <p><?php echo $error_message; ?></p>
                     </div>
                 </div>
             <?php endif; ?>
@@ -72,6 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <div class="relative">
                         <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
                         <input type="email" name="email" id="email" required
+                            value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>"
                             class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
                 </div>
