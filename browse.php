@@ -24,7 +24,7 @@ require_once './data/products_data.php'; ?>
             <p class="text-center text-red-500">No products found. Please check back later.</p>
         <?php else: ?>
             <div
-                class="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transition-all duration-500 hover:shadow-2xl">
+                class="mb-8 bg-white rounded-2xl shadow-lg p-6 border border-gray-100 transition-all duration-500 hover:shadow-xl">
                 <div class="flex flex-col gap-6">
                     <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                         <h2 class="text-2xl font-bold text-gray-800">Browse Equipment</h2>

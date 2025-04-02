@@ -60,10 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($stmt->rowCount() > 0) {
                 $error_message = "Email address is already registered. Please login instead.";
             } else {
-                $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
                 $stmt = $pdo->prepare("INSERT INTO users (full_name, email, password, phone, role, created_at) VALUES (?, ?, ?, ?, 'user', NOW())");
-                $stmt->execute([$full_name, $email, $hashed_password, $phone]);
+                $stmt->execute([$full_name, $email, $password, $phone]);
 
                 $success_message = "Registration successful! You can now login.";
             }

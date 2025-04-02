@@ -94,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="mt-6 text-center text-sm text-gray-500">
-                <p>Don't have an account? <a href="#" class="text-blue-600 hover:underline">Sign up now</a></p>
+                <p>Don't have an account? <a href="signup.php" class="text-blue-600 hover:underline">Sign up now</a></p>
             </div>
         </div>
     </main>
