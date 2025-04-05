@@ -1,109 +1,186 @@
--- Run this SQL script to create the database and tables for the Quick Gear rental system.
--- This script includes the creation of the database, tables, and insertion of demo data.
--- Make sure to run this script in a MySQL environment.
--- Database: quick-gear-db
--- Create database
-CREATE DATABASE IF NOT EXISTS `quick-gear-db`;
-USE `quick-gear-db`;
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: Apr 05, 2025 at 02:36 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
--- Create products table
-CREATE TABLE IF NOT EXISTS products (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    category VARCHAR(50) NOT NULL,
-    description TEXT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
-    price_type VARCHAR(20) NOT NULL,
-    deposit DECIMAL(10,2) NOT NULL,
-    status VARCHAR(20) NOT NULL,
-    image TEXT NOT NULL,
-    features TEXT NOT NULL
-);
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
 
--- Insert demo data from products.php
-INSERT INTO products (name, category, description, price, price_type, deposit, status, image, features) VALUES
-('DSLR Camera', 'tech', 'Professional Canon 5D Mark IV with lens kit', 999.00, 'day', 25000.00, 'available', 'https://placehold.co/400x300/4361ee/ffffff?text=DSLR+Camera', '4K Video, 30.4MP, Dual Pixel AF'),
-('PlayStation 5', 'tech', 'Gaming console with 2 controllers and 3 games', 499.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/4361ee/ffffff?text=PlayStation+5', '2 Controllers, 3 Games Included, 4K Gaming'),
-('Professional DJ Setup', 'events', 'Complete DJ system with speakers and lights', 2500.00, 'day', 35000.00, 'available', 'https://placehold.co/400x300/ff6b6b/ffffff?text=DJ+Setup', '2000W Speakers, DMX Lights, Pioneer Controller'),
-('Drone with 4K Camera', 'tech', 'DJI Mavic Air 2 with extra batteries', 1500.00, 'day', 20000.00, 'available', 'https://placehold.co/400x300/4361ee/ffffff?text=Drone', '4K 60fps, 48MP Photos, 34min Flight Time'),
-('Power Generator', 'tools', '5500W Portable Generator', 800.00, 'day', 10000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Generator', '5500W Output, Low Noise, Fuel Efficient'),
-('Professional Lighting Kit', 'events', 'Studio lighting setup with softboxes', 1200.00, 'day', 15000.00, 'available', 'https://placehold.co/400x300/ff6b6b/ffffff?text=Lighting+Kit', '3-Point Setup, LED Panels, Wireless Control'),
-('Heavy Duty Lawn Mower', 'tools', 'Professional grade gas-powered mower', 600.00, 'day', 8000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Lawn+Mower', 'Self-Propelled, 21-inch Deck, Mulching Capable');
 
--- Create users table
-CREATE TABLE IF NOT EXISTS users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    phone VARCHAR(50),
-    role VARCHAR(50) DEFAULT 'user',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-);
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
--- Insert demo admin user
-INSERT INTO users (full_name, email, password, phone, role) VALUES
-('mansvi', 'itsmansvi@gmail.com', 'm4vi01', '9661720207', 'admin');
+--
+-- Database: `quick-gear-db`
+--
 
--- Insert demo users - remove explicit IDs
-INSERT INTO users (full_name, email, password, phone, role) VALUES
-('priyanshu', 'priyanshu@example.in', 'pass123', '9876543211', 'user'),
-('kiran', 'kiran@example.in', 'pass123', '9876543212', 'user'),
-('varun', 'varun@example.in', 'pass123', '9876543213', 'user');
+-- --------------------------------------------------------
 
--- Create bookings table with all necessary fields
-CREATE TABLE IF NOT EXISTS bookings (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL DEFAULT 0,
-    product_id INT NOT NULL,
-    full_name VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL,
-    phone VARCHAR(50) NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    message TEXT,
-    booking_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'pending'
-);
+--
+-- Table structure for table `bookings`
+--
 
--- Insert demo data for bookings with multiple entries per user
-INSERT INTO bookings (user_id, product_id, full_name, email, phone, start_date, end_date, message, status) VALUES
-(1, 1, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-09-05', '2023-09-10', 'Testing the camera for a company event', 'completed'),
-(1, 3, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-09-15', '2023-09-17', 'Need DJ setup for staff party', 'completed'),
-(1, 5, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-10-01', '2023-10-02', 'Generator needed for outdoor shooting', 'completed'),
-(1, 7, 'mansvi', 'itsmansvi@gmail.com', '9661720207', '2023-12-15', '2023-12-16', 'Office lawn maintenance', 'confirmed'),
-(2, 2, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-10-10', '2023-10-15', 'Weekend gaming session with friends', 'confirmed'),
-(2, 4, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-11-05', '2023-11-10', 'Need drone for sister\'s wedding shoot', 'pending'),
-(2, 6, 'priyanshu', 'priyanshu@example.in', '9876543211', '2023-12-20', '2023-12-25', 'Christmas decoration lighting setup', 'pending'),
-(3, 1, 'kiran', 'kiran@example.in', '9876543212', '2023-10-20', '2023-10-25', 'Photography project for college assignment', 'completed'),
-(3, 3, 'kiran', 'kiran@example.in', '9876543212', '2023-11-15', '2023-11-18', 'Birthday party DJ setup', 'confirmed'),
-(3, 5, 'kiran', 'kiran@example.in', '9876543212', '2023-12-05', '2023-12-06', 'Power backup for home event', 'pending'),
-(3, 7, 'kiran', 'kiran@example.in', '9876543212', '2024-01-10', '2024-01-11', 'Garden maintenance at new house', 'pending'),
-(4, 2, 'varun', 'varun@example.in', '9876543213', '2023-09-25', '2023-09-30', 'Gaming night with colleagues', 'completed'),
-(4, 4, 'varun', 'varun@example.in', '9876543213', '2023-10-30', '2023-11-05', 'Drone footage for travel vlog', 'completed'),
-(4, 6, 'varun', 'varun@example.in', '9876543213', '2023-11-25', '2023-11-30', 'Product photography lighting', 'confirmed'),
-(4, 1, 'varun', 'varun@example.in', '9876543213', '2023-12-10', '2023-12-15', 'Wildlife photography trip', 'pending');
+CREATE TABLE `bookings` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL DEFAULT 0,
+  `product_id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `phone` varchar(50) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `message` text DEFAULT NULL,
+  `booking_date` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status` varchar(20) DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Add foreign key constraint for bookings table
-ALTER TABLE bookings
-ADD CONSTRAINT fk_bookings_product
-FOREIGN KEY (product_id) REFERENCES products(id);
+--
+-- Dumping data for table `bookings`
+--
 
-ALTER TABLE bookings
-ADD CONSTRAINT fk_bookings_user
-FOREIGN KEY (user_id) REFERENCES users(id);
+INSERT INTO `bookings` (`id`, `user_id`, `product_id`, `full_name`, `email`, `phone`, `start_date`, `end_date`, `message`, `booking_date`, `status`) VALUES
+(1, 1, 1, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2025-02-16', '2025-02-21', 'Testing the camera for a company event', '2025-02-12 18:30:00', 'cancelled'),
+(2, 1, 3, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2024-12-21', '2024-12-22', 'Need DJ setup for staff party', '2024-12-16 18:30:00', 'cancelled'),
+(3, 1, 5, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2025-02-08', '2025-02-11', 'Generator needed for outdoor shooting', '2025-01-30 18:30:00', 'completed'),
+(4, 1, 7, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2024-10-27', '2024-10-30', 'Office lawn maintenance', '2024-10-16 18:30:00', 'confirmed'),
+(5, 2, 2, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-03-05', '2025-03-10', 'Weekend gaming session with friends', '2025-02-26 18:30:00', 'confirmed'),
+(6, 2, 4, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-02-19', '2025-02-23', 'Need drone for sister\'s wedding shoot', '2025-03-10 18:30:00', 'pending'),
+(7, 2, 6, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-01-20', '2025-01-25', 'Christmas decoration lighting setup', '2025-01-15 18:30:00', 'pending'),
+(8, 3, 1, 'kiran', 'kiran@example.in', '9876543212', '2024-11-06', '2024-11-08', 'Photography project for college assignment', '2024-11-02 18:30:00', 'completed'),
+(9, 3, 3, 'kiran', 'kiran@example.in', '9876543212', '2025-01-22', '2025-01-26', 'Birthday party DJ setup', '2025-01-18 18:30:00', 'confirmed'),
+(10, 3, 5, 'kiran', 'kiran@example.in', '9876543212', '2025-01-10', '2025-01-13', 'Power backup for home event', '2025-01-04 18:30:00', 'pending'),
+(11, 3, 7, 'kiran', 'kiran@example.in', '9876543212', '2024-12-31', '2025-01-05', 'Garden maintenance at new house', '2024-12-24 18:30:00', 'cancelled'),
+(12, 4, 2, 'varun', 'varun@example.in', '9876543213', '2024-11-07', '2024-11-11', 'Gaming night with colleagues', '2024-10-31 18:30:00', 'confirmed'),
+(13, 4, 4, 'varun', 'varun@example.in', '9876543213', '2024-10-04', '2024-10-08', 'Drone footage for travel vlog', '2024-09-24 18:30:00', 'completed'),
+(14, 4, 6, 'varun', 'varun@example.in', '9876543213', '2024-12-12', '2024-12-13', 'Product photography lighting', '2024-12-02 18:30:00', 'confirmed'),
+(15, 4, 1, 'varun', 'varun@example.in', '9876543213', '2025-02-03', '2025-02-08', 'Wildlife photography trip', '2025-01-27 18:30:00', 'pending');
 
--- Improved query to update bookings dates randomly in past 6 months
-UPDATE bookings
-SET start_date = DATE_SUB(CURRENT_DATE, INTERVAL FLOOR(RAND() * 180) DAY),
-    booking_date = DATE_SUB(CURRENT_DATE, INTERVAL FLOOR(RAND() * 190) DAY);
+-- --------------------------------------------------------
 
--- Update end dates based on new start dates (1-7 days rental period)
-UPDATE bookings
-SET end_date = DATE_ADD(start_date, INTERVAL FLOOR(1 + RAND() * 6) DAY);
+--
+-- Table structure for table `products`
+--
 
--- Ensure booking_date is before start_date
-UPDATE bookings
-SET booking_date = DATE_SUB(start_date, INTERVAL FLOOR(1 + RAND() * 10) DAY)
-WHERE booking_date >= start_date;
+CREATE TABLE `products` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `category` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  `price_type` varchar(20) NOT NULL,
+  `deposit` decimal(10,2) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `image` text NOT NULL,
+  `features` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `name`, `category`, `description`, `price`, `price_type`, `deposit`, `status`, `image`, `features`) VALUES
+(1, 'DSLR Camera', 'tech', 'Professional Canon 5D Mark IV with lens kit', 999.00, 'day', 25000.00, 'available', 'https://placehold.co/400x300/4361ee/ffffff?text=DSLR+Camera', '4K Video, 30.4MP, Dual Pixel AF'),
+(2, 'PlayStation 5', 'tech', 'Gaming console with 2 controllers and 3 games', 499.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/4361ee/ffffff?text=PlayStation+5', '2 Controllers, 3 Games Included, 4K Gaming'),
+(3, 'Professional DJ Setup', 'events', 'Complete DJ system with speakers and lights', 2500.00, 'day', 35000.00, 'available', 'https://placehold.co/400x300/ff6b6b/ffffff?text=DJ+Setup', '2000W Speakers, DMX Lights, Pioneer Controller'),
+(4, 'Drone with 4K Camera', 'tech', 'DJI Mavic Air 2 with extra batteries', 1500.00, 'day', 20000.00, 'rented', 'https://placehold.co/400x300/4361ee/ffffff?text=Drone', '4K 60fps, 48MP Photos, 34min Flight Time'),
+(5, 'Power Generator', 'tools', '5500W Portable Generator', 800.00, 'day', 10000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Generator', '5500W Output, Low Noise, Fuel Efficient'),
+(6, 'Professional Lighting Kit', 'events', 'Studio lighting setup with softboxes', 1200.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/ff6b6b/ffffff?text=Lighting+Kit', '3-Point Setup, LED Panels, Wireless Control'),
+(7, 'Heavy Duty Lawn Mower', 'tools', 'Professional grade gas-powered mower', 600.00, 'day', 8000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Lawn+Mower', 'Self-Propelled, 21-inch Deck, Mulching Capable');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(11) NOT NULL,
+  `full_name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `phone` varchar(50) DEFAULT NULL,
+  `role` varchar(50) DEFAULT 'user',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `phone`, `role`, `created_at`, `updated_at`) VALUES
+(1, 'mansvi', 'itsmansvi@gmail.com', 'm4vi01', '9661720207', 'admin', '2025-03-31 18:30:00', '2025-03-31 18:30:00'),
+(2, 'priyanshu', 'priyanshu@example.in', 'pass123', '9876543211', 'user', '2025-03-31 12:47:05', '2025-03-31 12:47:05'),
+(3, 'kiran', 'kiran@example.in', 'pass123', '9876543212', 'user', '2025-03-31 12:47:05', '2025-03-31 12:47:05'),
+(4, 'varun', 'varun@example.in', 'pass123', '9876543213', 'user', '2025-03-31 12:47:05', '2025-03-31 12:47:05'),
+(5, 'Mansvi', 'mansvi@example.in', 'pass123', '9661720207', 'user', '2025-04-02 06:16:03', '2025-04-02 06:16:03');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_bookings_product` (`product_id`),
+  ADD KEY `fk_bookings_user` (`user_id`);
+
+--
+-- Indexes for table `products`
+--
+ALTER TABLE `products`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `bookings`
+--
+ALTER TABLE `bookings`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+
+--
+-- AUTO_INCREMENT for table `products`
+--
+ALTER TABLE `products`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `bookings`
+--
+ALTER TABLE `bookings`
+  ADD CONSTRAINT `fk_bookings_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
