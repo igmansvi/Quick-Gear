@@ -15,34 +15,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $price_type = trim($_POST['price_type'] ?? '');
     $deposit = floatval($_POST['deposit'] ?? 0);
     $status = trim($_POST['status'] ?? '');
-    $image = trim($_POST['image'] ?? '');
     $features = array_map('trim', explode(',', $_POST['features'] ?? ''));
 
-    try {
-        $stmt = $pdo->query("SELECT MAX(id) as max_id FROM products");
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        $next_id = ($result['max_id'] ?? 0) + 1;
+    $image_path = '';
+    $upload_dir = './data/products';
 
-        $stmt = $pdo->prepare(
-            "INSERT INTO products (id, name, category, description, price, price_type, deposit, status, image, features) 
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
-        );
-        $stmt->execute([
-            $next_id,
-            $name,
-            $category,
-            $description,
-            $price,
-            $price_type,
-            $deposit,
-            $status,
-            $image,
-            implode(', ', $features)
-        ]);
-        $success = true;
-    } catch (PDOException $e) {
-        error_log($e->getMessage());
-        $error_message = "Unable to add listing. Please try again later.";
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0755, true);
+    }
+
+    if (isset($_FILES['product_image']) && $_FILES['product_image']['error'] == 0) {
+        $allowed_types = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        $max_size = 5 * 1024 * 1024; // 5MB
+
+        if (in_array($_FILES['product_image']['type'], $allowed_types) && $_FILES['product_image']['size'] <= $max_size) {
+            $file_extension = pathinfo($_FILES['product_image']['name'], PATHINFO_EXTENSION);
+            $new_filename = uniqid() . '.' . $file_extension;
+            $target_path = $upload_dir . '/' . $new_filename;
+
+            if (move_uploaded_file($_FILES['product_image']['tmp_name'], $target_path)) {
+                $image_path = $target_path;
+            } else {
+                $error_message = "Failed to upload image. Please try again.";
+            }
+        } else {
+            $error_message = "Invalid file. Please upload a JPG, PNG, GIF, or WEBP image under 5MB.";
+        }
+    } else if ($_FILES['product_image']['error'] != UPLOAD_ERR_NO_FILE) {
+        $error_message = "Error uploading file. Error code: " . $_FILES['product_image']['error'];
+    } else {
+        $error_message = "Product image is required.";
+    }
+
+    if (!isset($error_message)) {
+        try {
+            $stmt = $pdo->query("SELECT MAX(id) as max_id FROM products");
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $next_id = ($result['max_id'] ?? 0) + 1;
+
+            $stmt = $pdo->prepare(
+                "INSERT INTO products (id, name, category, description, price, price_type, deposit, status, image, features) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+            );
+            $stmt->execute([
+                $next_id,
+                $name,
+                $category,
+                $description,
+                $price,
+                $price_type,
+                $deposit,
+                $status,
+                $image_path,
+                implode(', ', $features)
+            ]);
+            $success = true;
+        } catch (PDOException $e) {
+            error_log($e->getMessage());
+            $error_message = "Unable to add listing. Please try again later.";
+        }
     }
 }
 ?>
@@ -56,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <?php echo htmlspecialchars($error_message); ?>
             </div>
         <?php endif; ?>
-        <form action="list_item.php" method="post" class="space-y-6">
+        <form action="list_item.php" method="post" enctype="multipart/form-data" class="space-y-6">
             <div>
                 <label class="block text-gray-700 font-medium mb-1" for="name">Product Name</label>
                 <input type="text" name="name" id="name" required placeholder="Enter product name"
@@ -109,9 +140,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </select>
                 </div>
                 <div>
-                    <label class="block text-gray-700 font-medium mb-1" for="image">Image URL</label>
-                    <input type="url" name="image" id="image" required placeholder="http://example.com/image.jpg"
+                    <label class="block text-gray-700 font-medium mb-1" for="product_image">Product Image</label>
+                    <input type="file" name="product_image" id="product_image" required accept="image/*"
                         class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500">
+                    <p class="text-xs text-gray-500 mt-1">Upload JPG, PNG, GIF or WEBP (max 5MB)</p>
                 </div>
             </div>
             <div>
