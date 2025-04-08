@@ -7,6 +7,13 @@ if (!isset($_SESSION['user_id'])) {
 include './includes/header.php';
 include './data/bookings_data.php';
 ?>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings - Quick Gear</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
 <main class="container mx-auto py-10 bg-gray-50 px-24">
     <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">My Bookings</h2>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
