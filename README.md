@@ -75,6 +75,42 @@ Quick Gear is a full-featured platform for managing product catalogs, user authe
   - Input validation and sanitization is crucial to prevent SQL injection.
   - In demo mode, plain text credentials are used but must be secured (hashed) in production.
 
+## System Flowcharts
+
+### User Authentication Flow
+
+```mermaid
+flowchart LR
+    A[Login Page] --> B[Validation]
+    B --> C[Database Check]
+    C --> D[Dashboard]
+    C --> E[Error Page]
+    E --> F[Sign Up]
+    F --> B
+```
+
+### Booking Process Flow
+
+```mermaid
+flowchart LR
+    A[Browse Products] --> B[Product Selection]
+    B --> C[Date Selection]
+    C --> D[Booking Confirmation]
+    D --> E[Payment Processing]
+    E --> F[My Bookings]
+```
+
+### Admin Dashboard Flow
+
+```mermaid
+flowchart TD
+    A[Admin Login] --> B[Dashboard Stats]
+    B --> C[Products Management]
+    B --> D[Bookings Management]
+    D --> E[User Management]
+    C --> F[Add/Edit Products]
+```
+
 ## Contributing
 
 - Fork the repository and create a new branch for new features or bug fixes.
@@ -84,30 +120,21 @@ Quick Gear is a full-featured platform for managing product catalogs, user authe
 ## Troubleshooting
 
 - Check XAMPP's server logs for errors.
-- Verify file paths and permissions.
-- Consult this documentation for configuration details and troubleshooting tips.
+- Verify database connection settings in the config file.
+- Clear browser cache if experiencing UI issues.
+- For login issues, verify user credentials in the database.
+- If experiencing icon issues, check Font Awesome integration.
 
 ## Additional Instructions
 
-### Operating This Documentation
-
-- Navigate this README for step-by-step instructions on setup and maintenance.
-- Use browser search or a table of contents (if available) to quickly jump to relevant sections.
-
-### Creating the Database
-
-- Open phpMyAdmin via XAMPP.
-- Create a new database, for example: `quick_gear_db`.
-- Import the SQL schema from `database/quick_gear_schema.sql` (if provided with the project).
-- Update `config.php` with your database credentials.
-
-### Folder Structure Guidelines
+### Project File Structure
 
 - Root Directory: c:\xampp\htdocs\quick-gear
-  - `index.php`: Main entry point.
-  - `/assets`: Static files such as CSS, JavaScript, and images.
-  - `/includes`: Reusable PHP components.
-  - `/database`: Contains SQL files (e.g., `quick_gear_schema.sql`).
-  - `/admin`: Administrative interface and functionalities.
-  - `/user`: User-specific interface and logic.
-  - Additional folders for other project modules as necessary.
+  - `index.php`: Main entry point and home page.
+  - `login.php` & `signup.php`: User authentication pages.
+  - `browse.php`: Product browsing interface.
+  - `bookings.php`: User booking history and management.
+  - `admin.php`: Administrative dashboard.
+  - `/includes`: Header, footer, and main content components.
+  - `/data`: Product and booking data files.
+  - `/db`: Database schema (quick-gear-db.sql).
