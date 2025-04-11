@@ -6,7 +6,6 @@ $user_id = $_SESSION['user_id'];
 $success_message = '';
 $error_message = '';
 
-// Database connection
 $host = 'localhost';
 $dbname = 'quick-gear-db';
 $user = 'root';
@@ -22,7 +21,6 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
 
-    // Update user profile
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
         $full_name = trim($_POST['full_name']);
         $phone = trim($_POST['phone']);
@@ -30,15 +28,12 @@ try {
         $new_password = $_POST['new_password'] ?? '';
         $confirm_password = $_POST['confirm_password'] ?? '';
 
-        // Validate inputs
         if (empty($full_name) || strlen($full_name) < 3) {
             $error_message = "Full name must be at least 3 characters";
         } elseif (empty($phone) || !preg_match("/^[0-9]{10}$/", $phone)) {
             $error_message = "Please enter a valid 10-digit phone number";
         } else {
-            // Check if password change is requested
             if (!empty($current_password)) {
-                // Verify current password
                 $stmt = $pdo->prepare("SELECT password FROM users WHERE id = ?");
                 $stmt->execute([$user_id]);
                 $user = $stmt->fetch();
@@ -50,14 +45,12 @@ try {
                 } elseif ($new_password !== $confirm_password) {
                     $error_message = "New passwords do not match";
                 } else {
-                    // Update user with new password
                     $stmt = $pdo->prepare("UPDATE users SET full_name = ?, phone = ?, password = ? WHERE id = ?");
                     $stmt->execute([$full_name, $phone, $new_password, $user_id]);
                     $success_message = "Profile updated successfully";
                     $_SESSION['user_name'] = $full_name;
                 }
             } else {
-                // Update user without changing password
                 $stmt = $pdo->prepare("UPDATE users SET full_name = ?, phone = ? WHERE id = ?");
                 $stmt->execute([$full_name, $phone, $user_id]);
                 $success_message = "Profile updated successfully";
@@ -66,7 +59,6 @@ try {
         }
     }
 
-    // Cancel booking
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['cancel_booking'])) {
         $booking_id = $_POST['booking_id'];
 
@@ -80,7 +72,6 @@ try {
         }
     }
 
-    // Submit review
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit_review'])) {
         $booking_id = $_POST['booking_id'];
         $product_id = $_POST['product_id'];
@@ -92,7 +83,6 @@ try {
         } elseif (empty($review_text)) {
             $error_message = "Please provide review text";
         } else {
-            // Check if review already exists
             $checkStmt = $pdo->prepare("SELECT id FROM reviews WHERE booking_id = ? AND user_id = ?");
             $checkStmt->execute([$booking_id, $user_id]);
 
@@ -106,12 +96,10 @@ try {
         }
     }
 
-    // Get user data
     $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
     $stmt->execute([$user_id]);
     $user_data = $stmt->fetch();
 
-    // Get user bookings with product info
     $stmt = $pdo->prepare("
         SELECT b.*, p.name AS product_name, p.image AS product_image, p.price AS product_price, 
                (SELECT COUNT(*) FROM reviews r WHERE r.booking_id = b.id) AS has_review
@@ -165,7 +153,6 @@ try {
         <?php endif; ?>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Profile Information -->
             <div class="md:col-span-1">
                 <div class="bg-white rounded-xl shadow-lg p-6 transition duration-300 hover:shadow-xl">
                     <div class="text-center mb-6">
@@ -270,7 +257,6 @@ try {
                 </div>
             </div>
 
-            <!-- Bookings Section -->
             <div class="md:col-span-2">
                 <div class="bg-white rounded-xl shadow-lg p-6 transition duration-300 hover:shadow-xl h-full">
                     <h2 class="text-xl font-bold mb-6 pb-2 border-b border-gray-200 flex items-center">
@@ -375,7 +361,6 @@ try {
         </div>
     </main>
 
-    <!-- Cancel Booking Modal -->
     <div id="cancelModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
         <div
             class="bg-white p-8 rounded-xl shadow-xl max-w-md w-full transform transition-all duration-300 animate-fadeIn">
@@ -407,7 +392,6 @@ try {
         </div>
     </div>
 
-    <!-- Review Modal -->
     <div id="reviewModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50">
         <div
             class="bg-white p-8 rounded-xl shadow-xl max-w-md w-full transform transition-all duration-300 animate-fadeIn">
@@ -486,7 +470,6 @@ try {
     </style>
 
     <script>
-        // Profile form validation
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('profile-form');
             if (!form) return;
@@ -573,7 +556,6 @@ try {
             });
         });
 
-        // Cancel modal functionality
         function openCancelModal(bookingId, productName) {
             document.getElementById('cancelBookingId').value = bookingId;
             document.getElementById('cancelProductName').innerText = productName;
@@ -584,7 +566,6 @@ try {
             document.getElementById('cancelModal').classList.add('hidden');
         });
 
-        // Review modal functionality
         function openReviewModal(bookingId, productId, productName) {
             document.getElementById('reviewBookingId').value = bookingId;
             document.getElementById('reviewProductId').value = productId;
@@ -596,7 +577,6 @@ try {
             document.getElementById('reviewModal').classList.add('hidden');
         });
 
-        // Star rating functionality
         const stars = document.querySelectorAll('.rating i');
         const ratingInput = document.getElementById('rating');
         const selectedRating = document.getElementById('selectedRating');
@@ -608,7 +588,6 @@ try {
                 ratingInput.value = rating;
                 selectedRating.innerText = `${rating}/5`;
 
-                // Update star colors
                 stars.forEach(s => {
                     const starRating = parseInt(s.dataset.rating);
                     if (starRating <= rating) {
@@ -618,7 +597,6 @@ try {
                     }
                 });
 
-                // Enable submit button if rating is selected
                 if (rating > 0) {
                     submitReviewBtn.disabled = false;
                 }
