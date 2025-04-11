@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 05, 2025 at 02:36 PM
+-- Generation Time: Apr 11, 2025 at 07:06 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -57,10 +57,11 @@ INSERT INTO `bookings` (`id`, `user_id`, `product_id`, `full_name`, `email`, `ph
 (9, 3, 3, 'kiran', 'kiran@example.in', '9876543212', '2025-01-22', '2025-01-26', 'Birthday party DJ setup', '2025-01-18 18:30:00', 'confirmed'),
 (10, 3, 5, 'kiran', 'kiran@example.in', '9876543212', '2025-01-10', '2025-01-13', 'Power backup for home event', '2025-01-04 18:30:00', 'pending'),
 (11, 3, 7, 'kiran', 'kiran@example.in', '9876543212', '2024-12-31', '2025-01-05', 'Garden maintenance at new house', '2024-12-24 18:30:00', 'cancelled'),
-(12, 4, 2, 'varun', 'varun@example.in', '9876543213', '2024-11-07', '2024-11-11', 'Gaming night with colleagues', '2024-10-31 18:30:00', 'confirmed'),
+(12, 4, 2, 'varun', 'varun@example.in', '9876543213', '2024-11-07', '2024-11-11', 'Gaming night with colleagues', '2024-10-31 18:30:00', 'cancelled'),
 (13, 4, 4, 'varun', 'varun@example.in', '9876543213', '2024-10-04', '2024-10-08', 'Drone footage for travel vlog', '2024-09-24 18:30:00', 'completed'),
 (14, 4, 6, 'varun', 'varun@example.in', '9876543213', '2024-12-12', '2024-12-13', 'Product photography lighting', '2024-12-02 18:30:00', 'confirmed'),
-(15, 4, 1, 'varun', 'varun@example.in', '9876543213', '2025-02-03', '2025-02-08', 'Wildlife photography trip', '2025-01-27 18:30:00', 'pending');
+(15, 4, 1, 'varun', 'varun@example.in', '9876543213', '2025-02-03', '2025-02-08', 'Wildlife photography trip', '2025-01-27 18:30:00', 'pending'),
+(16, 5, 2, 'Mansvi', 'mansvi@example.in', '9661720207', '2025-04-08', '2025-04-11', 'Thank you for easy service!', '2025-04-08 09:35:53', 'confirmed');
 
 -- --------------------------------------------------------
 
@@ -93,6 +94,22 @@ INSERT INTO `products` (`id`, `name`, `category`, `description`, `price`, `price
 (5, 'Power Generator', 'tools', '5500W Portable Generator', 800.00, 'day', 10000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Generator', '5500W Output, Low Noise, Fuel Efficient'),
 (6, 'Professional Lighting Kit', 'events', 'Studio lighting setup with softboxes', 1200.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/ff6b6b/ffffff?text=Lighting+Kit', '3-Point Setup, LED Panels, Wireless Control'),
 (7, 'Heavy Duty Lawn Mower', 'tools', 'Professional grade gas-powered mower', 600.00, 'day', 8000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Lawn+Mower', 'Self-Propelled, 21-inch Deck, Mulching Capable');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `review_text` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -141,6 +158,15 @@ ALTER TABLE `products`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `booking_id` (`booking_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_id` (`product_id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -164,6 +190,12 @@ ALTER TABLE `products`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
+-- AUTO_INCREMENT for table `reviews`
+--
+ALTER TABLE `reviews`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
@@ -179,6 +211,14 @@ ALTER TABLE `users`
 ALTER TABLE `bookings`
   ADD CONSTRAINT `fk_bookings_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `fk_bookings_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `reviews`
+--
+ALTER TABLE `reviews`
+  ADD CONSTRAINT `reviews_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`id`),
+  ADD CONSTRAINT `reviews_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  ADD CONSTRAINT `reviews_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
