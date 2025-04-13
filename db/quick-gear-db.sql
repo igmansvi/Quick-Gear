@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2025 at 10:29 AM
+-- Generation Time: Apr 13, 2025 at 09:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -86,13 +86,13 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `category`, `description`, `price`, `price_type`, `deposit`, `status`, `image`, `features`) VALUES
-(1, 'DSLR Camera', 'tech', 'Professional Canon 5D Mark IV with lens kit', 999.00, 'day', 25000.00, 'available', 'https://placehold.co/400x300/4361ee/ffffff?text=DSLR+Camera', '4K Video, 30.4MP, Dual Pixel AF'),
-(2, 'PlayStation 5', 'tech', 'Gaming console with 2 controllers and 3 games', 499.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/4361ee/ffffff?text=PlayStation+5', '2 Controllers, 3 Games Included, 4K Gaming'),
-(3, 'Professional DJ Setup', 'events', 'Complete DJ system with speakers and lights', 2500.00, 'day', 35000.00, 'available', 'https://placehold.co/400x300/ff6b6b/ffffff?text=DJ+Setup', '2000W Speakers, DMX Lights, Pioneer Controller'),
-(4, 'Drone with 4K Camera', 'tech', 'DJI Mavic Air 2 with extra batteries', 1500.00, 'day', 20000.00, 'rented', 'https://placehold.co/400x300/4361ee/ffffff?text=Drone', '4K 60fps, 48MP Photos, 34min Flight Time'),
-(5, 'Power Generator', 'tools', '5500W Portable Generator', 800.00, 'day', 10000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Generator', '5500W Output, Low Noise, Fuel Efficient'),
-(6, 'Professional Lighting Kit', 'events', 'Studio lighting setup with softboxes', 1200.00, 'day', 15000.00, 'coming_soon', 'https://placehold.co/400x300/ff6b6b/ffffff?text=Lighting+Kit', '3-Point Setup, LED Panels, Wireless Control'),
-(7, 'Heavy Duty Lawn Mower', 'tools', 'Professional grade gas-powered mower', 600.00, 'day', 8000.00, 'available', 'https://placehold.co/400x300/2b2d42/ffffff?text=Lawn+Mower', 'Self-Propelled, 21-inch Deck, Mulching Capable');
+(1, 'DSLR Camera', 'tech', 'Professional Canon 5D Mark IV with lens kit', 999.00, 'day', 2500.00, 'available', './data/products/canon_camera_with_lens_kit.png', '4K Video, 30.4MP, Dual Pixel AF'),
+(2, 'PlayStation 5', 'tech', 'Gaming console with 2 controllers and 3 games', 499.00, 'day', 1500.00, 'coming_soon', './data/products/ps5_with_controller.png', '2 Controllers, 3 Games Included, 4K Gaming'),
+(3, 'Professional DJ Setup', 'events', 'Complete DJ system with speakers and lights', 2500.00, 'day', 5500.00, 'available', './data/products/professional_dj_setup_with_lights_and_speakers.png', '2000W Speakers, DMX Lights, Pioneer Controller'),
+(4, 'Drone with 4K Camera', 'tech', 'DJI Mavic Air 2 with extra batteries', 1500.00, 'day', 2000.00, 'rented', './data/products/drone_with_extra_batteries.png', '4K 60fps, 48MP Photos, 34min Flight Time'),
+(5, 'Power Generator', 'tools', '5500W Portable Generator', 800.00, 'day', 2100.00, 'available', './data/products/portable_generator.png', '5500W Output, Low Noise, Fuel Efficient'),
+(6, 'Professional Lighting Kit', 'events', 'Studio lighting setup with softboxes', 1200.00, 'day', 3000.00, 'coming_soon', './data/products/professional_studio_light_with_soft_lights.png', '3-Point Setup, LED Panels, Wireless Control'),
+(7, 'Heavy Duty Lawn Mower', 'tools', 'Professional grade gas-powered mower', 600.00, 'day', 1200.00, 'available', './data/products/heavy_duty_lawn_mower.png', 'Self-Propelled, 21-inch Deck, Mulching Capable');
 
 -- --------------------------------------------------------
 
@@ -141,7 +141,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `phone`, `role`, `created_at`, `updated_at`) VALUES
 (1, 'Mansvi', 'itsmansvi@gmail.com', 'm4vi01', '9661720207', 'admin', '2025-03-31 18:30:00', '2025-04-11 08:27:34'),
-(2, 'Priyanshu', 'priyanshu@example.in', 'pass123', '9876543211', 'user', '2025-03-31 12:47:05', '2025-04-11 08:26:34'),
+(2, 'Priyanshu', 'priyanshu@example.in', 'pass123', '9876543211', 'user', '2025-03-31 12:47:05', '2025-04-11 08:36:54'),
 (3, 'Kiran', 'kiran@example.in', 'pass123', '9876543212', 'user', '2025-03-31 12:47:05', '2025-04-11 08:25:42'),
 (4, 'Varun', 'varun@example.in', 'pass123', '9876543213', 'user', '2025-03-31 12:47:05', '2025-04-11 08:26:07');
 
