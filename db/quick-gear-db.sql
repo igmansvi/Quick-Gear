@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2025 at 09:28 PM
+-- Generation Time: Apr 13, 2025 at 11:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -46,10 +46,6 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`id`, `user_id`, `product_id`, `full_name`, `email`, `phone`, `start_date`, `end_date`, `message`, `booking_date`, `status`) VALUES
-(1, 1, 1, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2025-02-16', '2025-02-21', 'Testing the camera for a company event', '2025-02-12 18:30:00', 'cancelled'),
-(2, 1, 3, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2024-12-21', '2024-12-22', 'Need DJ setup for staff party', '2024-12-16 18:30:00', 'cancelled'),
-(3, 1, 5, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2025-02-08', '2025-02-11', 'Generator needed for outdoor shooting', '2025-01-30 18:30:00', 'completed'),
-(4, 1, 7, 'mansvi_kumar', 'itsmansvi@gmail.com', '9661720207', '2024-10-27', '2024-10-30', 'Office lawn maintenance', '2024-10-16 18:30:00', 'confirmed'),
 (5, 2, 2, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-03-05', '2025-03-10', 'Weekend gaming session with friends', '2025-02-26 18:30:00', 'confirmed'),
 (6, 2, 4, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-02-19', '2025-02-23', 'Need drone for sister\'s wedding shoot', '2025-03-10 18:30:00', 'pending'),
 (7, 2, 6, 'priyanshu', 'priyanshu@example.in', '9876543211', '2025-01-20', '2025-01-25', 'Christmas decoration lighting setup', '2025-01-15 18:30:00', 'pending'),
@@ -140,7 +136,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `phone`, `role`, `created_at`, `updated_at`) VALUES
-(1, 'Mansvi', 'itsmansvi@gmail.com', 'm4vi01', '9661720207', 'admin', '2025-03-31 18:30:00', '2025-04-11 08:27:34'),
+(1, 'm4vi', 'admin@quickgear.in', 'm4vi01', NULL, 'admin', '2024-12-31 18:30:00', '2024-12-31 18:30:00'),
 (2, 'Priyanshu', 'priyanshu@example.in', 'pass123', '9876543211', 'user', '2025-03-31 12:47:05', '2025-04-11 08:36:54'),
 (3, 'Kiran', 'kiran@example.in', 'pass123', '9876543212', 'user', '2025-03-31 12:47:05', '2025-04-11 08:25:42'),
 (4, 'Varun', 'varun@example.in', 'pass123', '9876543213', 'user', '2025-03-31 12:47:05', '2025-04-11 08:26:07');
