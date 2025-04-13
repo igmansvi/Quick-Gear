@@ -91,6 +91,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         primary: '#ff8c00',
                         secondary: '#ff6300',
                         accent: '#ffdd00',
+                        blue: {
+                            DEFAULT: '#3a86ff',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
@@ -98,108 +110,178 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
 </head>
 
-<body class="font-sans m-0 p-0 box-border bg-gray-100 min-h-screen flex items-center justify-center">
-
-    <main class="container mx-auto py-16 px-4">
-        <div
-            class="max-w-md mx-auto bg-white rounded-xl shadow-lg p-8 transition duration-300 hover:shadow-2xl hover:shadow-blue-300">
-            <div class="text-center mb-8">
-                <i class="fas fa-tools text-4xl text-blue-600 mb-4"></i>
-                <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
-                <p class="text-gray-600">Join Quick Gear for equipment rental services</p>
+<body class="font-sans m-0 p-0 box-border bg-gray-50 min-h-screen">
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <div class="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 to-blue-400 p-8 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute top-10 left-10 w-20 h-20 border-4 border-white rounded-full"></div>
+                <div class="absolute bottom-20 right-20 w-32 h-32 border-4 border-white rounded-full"></div>
+                <div class="absolute top-1/2 left-1/4 w-16 h-16 border-4 border-white transform rotate-45"></div>
+                <div class="absolute top-1/4 right-1/3 w-10 h-10 border-4 border-white transform rotate-12"></div>
             </div>
 
-            <?php if (!empty($error_message)): ?>
-                <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg">
-                    <div class="flex items-center">
-                        <i class="fas fa-exclamation-circle mr-2"></i>
-                        <p><?php echo $error_message; ?></p>
+            <div class="w-full h-full flex flex-col items-center justify-center z-10 text-white">
+                <div class="w-full max-w-md mx-auto">
+                    <div class="flex items-center justify-center mb-8">
+                        <i class="fas fa-tools text-6xl text-white mb-4 animate-float"></i>
                     </div>
-                </div>
-            <?php endif; ?>
 
-            <?php if (!empty($success_message)): ?>
-                <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-lg">
-                    <div class="flex items-center">
-                        <i class="fas fa-check-circle mr-2"></i>
-                        <p><?php echo $success_message; ?></p>
+                    <h1 class="text-4xl font-bold mb-6 text-center">Welcome to Quick Gear</h1>
+
+                    <div class="space-y-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-white rounded-full p-2 flex items-center justify-center h-10 w-10 shadow-lg">
+                                <i class="fas fa-search text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">Find Equipment</h3>
+                                <p class="text-blue-100">Browse our extensive collection of high-quality rental
+                                    equipment</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-white rounded-full p-2 flex items-center justify-center h-10 w-10 shadow-lg">
+                                <i class="fas fa-calendar-check text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">Book Online</h3>
+                                <p class="text-blue-100">Simple and secure booking process with instant confirmation</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start space-x-4">
+                            <div class="bg-white rounded-full p-2 flex items-center justify-center h-10 w-10 shadow-lg">
+                                <i class="fas fa-truck text-blue-600"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">Quick Delivery</h3>
+                                <p class="text-blue-100">Get equipment delivered right to your doorstep on time</p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mt-3 text-center">
+
+                    <div class="mt-12 text-center">
+                        <p class="text-blue-100">Already have an account?</p>
                         <a href="login.php"
-                            class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-4 rounded transition-colors duration-300">
-                            Go to Login <i class="fas fa-arrow-right ml-2"></i>
+                            class="mt-2 inline-block bg-white text-blue-600 font-semibold py-2 px-6 rounded-lg hover:bg-blue-50 transition-colors duration-300 shadow-lg">
+                            Sign In <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
                 </div>
-            <?php else: ?>
-                <form id="signupForm" action="signup.php" method="post" class="space-y-6">
-                    <div>
-                        <label for="full_name" class="block text-gray-700 font-medium mb-1">Full Name</label>
-                        <div class="relative">
-                            <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="text" name="full_name" id="full_name" required
-                                class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            </div>
+            <div class="absolute bottom-0 left-0 right-0 h-1/4 bg-gradient-to-t from-blue-700 to-transparent opacity-30"></div>
+            <div class="absolute -bottom-16 -right-16 w-64 h-64 bg-blue-300 rounded-full opacity-30"></div>
+            <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-300 rounded-full opacity-30"></div>
+        </div>
+
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-4 md:p-8">
+            <div
+                class="w-full max-w-md bg-white rounded-xl shadow-xl p-6 md:p-8 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center mb-8">
+                    <div class="lg:hidden flex items-center justify-center">
+                        <i class="fas fa-tools text-4xl text-blue-600 mb-4"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-800">Create Account</h2>
+                    <p class="text-gray-600">Join Quick Gear for equipment rental services</p>
+                </div>
+
+                <?php if (!empty($error_message)): ?>
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded-lg">
+                        <div class="flex items-center">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <p><?php echo $error_message; ?></p>
                         </div>
-                        <p id="nameError" class="text-red-500 text-xs mt-1 hidden">Name must be at least 3 characters</p>
                     </div>
+                <?php endif; ?>
 
-                    <div>
-                        <label for="email" class="block text-gray-700 font-medium mb-1">Email Address</label>
-                        <div class="relative">
-                            <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="email" name="email" id="email" required
-                                value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>"
-                                class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <?php if (!empty($success_message)): ?>
+                    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded-lg animate-pulse">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle mr-2"></i>
+                            <p><?php echo $success_message; ?></p>
                         </div>
-                        <p id="emailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email address</p>
-                    </div>
-
-                    <div>
-                        <label for="phone" class="block text-gray-700 font-medium mb-1">Phone Number</label>
-                        <div class="relative">
-                            <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="tel" name="phone" id="phone" required
-                                class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <div class="mt-4 text-center">
+                            <a href="login.php"
+                                class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg">
+                                Go to Login <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
                         </div>
-                        <p id="phoneError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid 10-digit phone
-                            number</p>
                     </div>
-
-                    <div>
-                        <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
-                        <div class="relative">
-                            <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" name="password" id="password" required minlength="6"
-                                class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <?php else: ?>
+                    <form id="signupForm" action="signup.php" method="post" class="space-y-5">
+                        <div>
+                            <label for="full_name" class="block text-gray-700 font-medium mb-1">Full Name</label>
+                            <div class="relative">
+                                <i class="fas fa-user absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" name="full_name" id="full_name" required
+                                    class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <p id="nameError" class="text-red-500 text-xs mt-1 hidden">Name must be at least 3 characters
+                            </p>
                         </div>
-                        <p id="passwordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6
-                            characters</p>
-                    </div>
 
-                    <div>
-                        <label for="confirm_password" class="block text-gray-700 font-medium mb-1">Confirm Password</label>
-                        <div class="relative">
-                            <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                            <input type="password" name="confirm_password" id="confirm_password" required
-                                class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-1">Email Address</label>
+                            <div class="relative">
+                                <i class="fas fa-envelope absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="email" name="email" id="email" required
+                                    value="<?php echo isset($_GET['email']) ? htmlspecialchars($_GET['email']) : ''; ?>"
+                                    class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <p id="emailError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid email address
+                            </p>
                         </div>
-                        <p id="confirmError" class="text-red-500 text-xs mt-1 hidden">Passwords do not match</p>
-                    </div>
 
-                    <div>
-                        <button type="submit"
-                            class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors duration-300">
-                            Sign Up <i class="fas fa-user-plus ml-2"></i>
-                        </button>
-                    </div>
-                </form>
-            <?php endif; ?>
+                        <div>
+                            <label for="phone" class="block text-gray-700 font-medium mb-1">Phone Number</label>
+                            <div class="relative">
+                                <i class="fas fa-phone absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="tel" name="phone" id="phone" required
+                                    class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <p id="phoneError" class="text-red-500 text-xs mt-1 hidden">Please enter a valid 10-digit phone
+                                number</p>
+                        </div>
 
-            <div class="mt-6 text-center text-sm text-gray-500">
-                <p>Already have an account? <a href="login.php" class="text-blue-600 hover:underline">Sign in</a></p>
+                        <div>
+                            <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="password" name="password" id="password" required minlength="6"
+                                    class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <p id="passwordError" class="text-red-500 text-xs mt-1 hidden">Password must be at least 6
+                                characters</p>
+                        </div>
+
+                        <div>
+                            <label for="confirm_password" class="block text-gray-700 font-medium mb-1">Confirm
+                                Password</label>
+                            <div class="relative">
+                                <i class="fas fa-lock absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                                <input type="password" name="confirm_password" id="confirm_password" required
+                                    class="w-full bg-gray-50 border border-gray-300 pl-10 pr-3 py-3 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200">
+                            </div>
+                            <p id="confirmError" class="text-red-500 text-xs mt-1 hidden">Passwords do not match</p>
+                        </div>
+
+                        <div class="pt-2">
+                            <button type="submit"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1">
+                                Sign Up <i class="fas fa-user-plus ml-2"></i>
+                            </button>
+                        </div>
+                    </form>
+                <?php endif; ?>
+
+                <div class="mt-6 text-center text-sm text-gray-500 lg:hidden">
+                    <p>Already have an account? <a href="login.php" class="text-blue-600 hover:underline">Sign in</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
