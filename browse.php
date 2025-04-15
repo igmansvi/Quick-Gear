@@ -19,7 +19,7 @@ require_once './data/products_data.php'; ?>
 <body class="font-sans m-0 p-0 box-border">
     <?php include './includes/header.php'; ?>
 
-    <main class="container mx-auto px-4 py-8">
+    <main class="container mx-auto px-24 py-8">
         <?php if (empty($products)): ?>
             <p class="text-center text-red-500">No products found. Please check back later.</p>
         <?php else: ?>

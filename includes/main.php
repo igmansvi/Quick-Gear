@@ -5,11 +5,18 @@
         <p class="hero-subtitle">Premium Equipment Rentals. Doorstep Delivery.</p>
         <a href="#products" class="cta-button">Rent Now</a>
     </div>
-    <div class="hero-gradient"></div>
+    <div class="hero-gradient">
+        <i class="fa fa-camera doodle"></i>
+        <i class="fa fa-tools doodle"></i>
+        <i class="fa fa-laptop doodle"></i>
+        <i class="fa fa-headphones doodle"></i>
+        <i class="fa fa-microphone doodle"></i>
+        <i class="fa fa-video doodle"></i>
+    </div>
 </div>
 
 <div class="product-showcase" id="products">
-    <div class="container">
+    <div class="container px-48">
         <div class="section-header">
             <h2>Rental Collection</h2>
             <p>Quality equipment for rent at affordable prices across major Indian cities</p>
@@ -32,6 +39,8 @@
                             <span class="badge new">Available</span>
                         <?php elseif ($product['status'] === 'coming_soon'): ?>
                             <span class="badge sale">Coming Soon</span>
+                        <?php elseif ($product['status'] === 'rented'): ?>
+                            <span class="badge over">Rented</span>
                         <?php endif; ?>
                     </div>
                     <div class="product-details">
@@ -54,7 +63,7 @@
 </div>
 
 <div class="testimonials-section bg-gray-100 py-12">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-12">
         <div class="section-header text-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">What Our Customers Say</h2>
             <p class="text-gray-600">Hear from our happy customers</p>
@@ -68,19 +77,19 @@
             <div class="testimonial bg-white p-6 rounded-lg shadow-md">
                 <p class="text-gray-600 italic">"I rented a DSLR camera for my vacation. The process was seamless, and
                     the camera worked perfectly."</p>
-                <h4 class="mt-4 font-bold text-gray-800">- Rahul Verma</h4>
+                <h4 class="mt-4 font-bold text-gray-800">- Kiran</h4>
             </div>
             <div class="testimonial bg-white p-6 rounded-lg shadow-md">
                 <p class="text-gray-600 italic">"Affordable prices and excellent customer service. Highly recommend
                     Quick Gear for any rental needs."</p>
-                <h4 class="mt-4 font-bold text-gray-800">- Anjali Mehta</h4>
+                <h4 class="mt-4 font-bold text-gray-800">- Varun Jamwal</h4>
             </div>
         </div>
     </div>
 </div>
 
 <div id="how-it-works" class="how-it-works-section py-12">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-12">
         <div class="section-header text-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">How It Works</h2>
             <p class="text-gray-600">Renting made simple in just three steps</p>
@@ -115,7 +124,7 @@
 </div>
 
 <div id="faqs" class="faqs-section bg-gray-100 py-12">
-    <div class="container mx-auto px-6">
+    <div class="container mx-auto px-12">
         <div class="section-header text-center mb-8">
             <h2 class="text-2xl font-bold text-gray-800">Frequently Asked Questions</h2>
             <p class="text-gray-600">Find answers to common questions</p>
@@ -137,380 +146,6 @@
         </div>
     </div>
 </div>
-
-<style>
-    .hero-section {
-        position: relative;
-        height: 70vh;
-        display: flex;
-        align-items: center;
-        background: #f8f9fa;
-        color: #212529;
-        overflow: hidden;
-        padding: 0 5%;
-    }
-
-    .hero-gradient {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 60%;
-        height: 100%;
-        background: linear-gradient(to left, rgba(67, 97, 238, 0.15), rgba(255, 255, 255, 0));
-        z-index: 1;
-        clip-path: polygon(20% 0, 100% 0, 100% 100%, 0% 100%);
-    }
-
-    .hero-content {
-        position: relative;
-        text-align: left;
-        max-width: 500px;
-        z-index: 2;
-        animation: fadeIn 1.2s ease-out;
-        margin-right: auto;
-    }
-
-    .hero-title {
-        font-size: 3.2rem;
-        font-weight: 500;
-        letter-spacing: 1px;
-        margin-bottom: 0.8rem;
-        background: linear-gradient(90deg, #2b2d42, #4361ee);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        text-shadow: 0px 2px 10px rgba(0, 0, 0, 0.05);
-    }
-
-    .hero-subtitle {
-        font-size: 1.1rem;
-        margin-bottom: 2rem;
-        opacity: 0.8;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-    }
-
-    .cta-button {
-        display: inline-block;
-        padding: 10px 28px;
-        font-size: 0.9rem;
-        font-weight: 400;
-        color: #fff;
-        background: linear-gradient(135deg, #3a86ff 0%, #4361ee 100%);
-        border-radius: 30px;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        box-shadow: 0 3px 12px rgba(67, 97, 238, 0.3);
-    }
-
-    .cta-button:hover {
-        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.4);
-        transform: translateY(-2px);
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateX(-20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
-        }
-    }
-
-    @media (max-width: 768px) {
-        .hero-title {
-            font-size: 2.8rem;
-        }
-
-        .hero-subtitle {
-            font-size: 1rem;
-        }
-
-        .hero-gradient {
-            width: 50%;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .hero-title {
-            font-size: 2.2rem;
-        }
-
-        .hero-gradient {
-            width: 40%;
-            opacity: 0.7;
-        }
-
-        .hero-section {
-            padding: 0 7%;
-        }
-    }
-
-    .product-showcase {
-        padding: 5rem 0;
-        background-color: #fafafa;
-    }
-
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-
-    .section-header {
-        text-align: center;
-        margin-bottom: 3rem;
-    }
-
-    .section-header h2 {
-        font-size: 2rem;
-        font-weight: 600;
-        color: #2b2d42;
-        margin-bottom: 0.5rem;
-        position: relative;
-        display: inline-block;
-    }
-
-    .section-header h2:after {
-        content: "";
-        position: absolute;
-        bottom: -8px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 40px;
-        height: 3px;
-        background: linear-gradient(90deg, #4361ee, #3a86ff);
-        border-radius: 2px;
-    }
-
-    .section-header p {
-        color: #6c757d;
-        font-size: 1.1rem;
-        font-weight: 300;
-        max-width: 600px;
-        margin: 1rem auto 0;
-    }
-
-    .category-filter {
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-bottom: 2.5rem;
-    }
-
-    .filter-btn {
-        padding: 8px 18px;
-        border: none;
-        background: #f1f3f5;
-        color: #6c757d;
-        font-size: 0.9rem;
-        font-weight: 500;
-        cursor: pointer;
-        border-radius: 30px;
-        transition: all 0.25s ease;
-    }
-
-    .filter-btn:hover {
-        color: #4361ee;
-        background-color: #e9ecef;
-    }
-
-    .filter-btn.active {
-        background: linear-gradient(135deg, #3a86ff 0%, #4361ee 100%);
-        color: #fff;
-        box-shadow: 0 3px 8px rgba(67, 97, 238, 0.25);
-    }
-
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 25px;
-        margin-bottom: 3rem;
-    }
-
-    .product-item {
-        background-color: #fff;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .product-item:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
-    }
-
-    .product-image {
-        position: relative;
-        height: 200px;
-        overflow: hidden;
-    }
-
-    .product-image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.4s ease;
-    }
-
-    .product-item:hover .product-image img {
-        transform: scale(1.05);
-    }
-
-    .badge {
-        position: absolute;
-        top: 12px;
-        right: 12px;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.75rem;
-        font-weight: 600;
-        color: white;
-        background: #4361ee;
-    }
-
-    .badge.new {
-        background: #4361ee;
-    }
-
-    .badge.sale {
-        background: #ff6b6b;
-    }
-
-    .product-details {
-        padding: 1.2rem;
-    }
-
-    .product-details h3 {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 0 0 8px 0;
-        color: #2b2d42;
-    }
-
-    .product-details p {
-        font-size: 0.9rem;
-        color: #6c757d;
-        margin-bottom: 15px;
-        line-height: 1.4;
-    }
-
-    .product-meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border-top: 1px solid #f1f3f5;
-        padding-top: 12px;
-    }
-
-    .price {
-        font-weight: 600;
-        color: #2b2d42;
-        font-size: 1.05rem;
-    }
-
-    .price .original {
-        text-decoration: line-through;
-        color: #adb5bd;
-        font-weight: 400;
-        margin-right: 8px;
-        font-size: 0.9rem;
-    }
-
-    .details-link {
-        color: #4361ee;
-        font-size: 0.9rem;
-        font-weight: 600;
-        text-decoration: none;
-        transition: color 0.2s;
-        position: relative;
-    }
-
-    .details-link:after {
-        content: "→";
-        display: inline-block;
-        margin-left: 4px;
-        transition: transform 0.2s;
-    }
-
-    .details-link:hover {
-        color: #3a86ff;
-    }
-
-    .details-link:hover:after {
-        transform: translateX(3px);
-    }
-
-    .view-all {
-        text-align: center;
-        margin-top: 1rem;
-    }
-
-    .view-all-btn {
-        display: inline-block;
-        padding: 12px 28px;
-        background-color: transparent;
-        color: #2b2d42;
-        border: 2px solid #e9ecef;
-        border-radius: 30px;
-        text-decoration: none;
-        font-size: 0.95rem;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .view-all-btn:hover {
-        background-color: #2b2d42;
-        color: white;
-        border-color: #2b2d42;
-    }
-
-    @media (max-width: 768px) {
-        .product-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        .product-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .category-filter {
-            flex-direction: row;
-            overflow-x: auto;
-            padding-bottom: 10px;
-            justify-content: flex-start;
-        }
-
-        .filter-btn {
-            flex: 0 0 auto;
-        }
-
-        .section-header h2 {
-            font-size: 1.8rem;
-        }
-    }
-
-    .testimonials-section .testimonial {
-        text-align: center;
-    }
-
-    .how-it-works-section .step .icon {
-        font-size: 1.5rem;
-    }
-
-    .faqs-section .faq-item h4 {
-        margin-bottom: 0.5rem;
-    }
-</style>
-
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const heroSection = document.querySelector('.hero-section');
@@ -588,5 +223,14 @@
                 console.log(`Selected city: ${selectedCity}`);
             });
         }
+
+        const doodles = document.querySelectorAll('.doodle');
+        doodles.forEach(doodle => {
+            doodle.addEventListener('animationiteration', () => {
+                const randomX = Math.random() * 20 - 10;
+                const randomRotate = Math.random() * 20 - 10;
+                doodle.style.transform = `translateX(${randomX}px) rotate(${randomRotate}deg)`;
+            });
+        });
     });
 </script>
