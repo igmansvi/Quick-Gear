@@ -19,7 +19,7 @@ require_once './data/products_data.php'; ?>
 <body class="font-sans m-0 p-0 box-border">
     <?php include './includes/header.php'; ?>
 
-    <main class="container mx-auto px-24 py-8">
+    <main class="container mx-auto px-8 py-8">
         <?php if (empty($products)): ?>
             <p class="text-center text-red-500">No products found. Please check back later.</p>
         <?php else: ?>
@@ -90,8 +90,8 @@ require_once './data/products_data.php'; ?>
                 <nav class="inline-flex rounded-lg shadow-sm bg-white">
                     <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Previous</button>
                     <button class="px-4 py-2 border rounded-lg bg-blue-600 text-white">1</button>
-                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">2</button>
-                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">3</button>
+                    <!-- <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">2</button>
+                    <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">3</button> -->
                     <button class="px-4 py-2 border rounded-lg hover:bg-gray-50">Next</button>
                 </nav>
             </div>
