@@ -220,6 +220,49 @@ if (!$product):
             window.location.href = 'bookings.php';
         }, 300);
     });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const startDateInput = document.querySelector('input[name="start_date"]');
+        const endDateInput = document.querySelector('input[name="end_date"]');
+        
+        const today = new Date();
+        const todayFormatted = today.toISOString().split('T')[0];
+        
+        const maxDate = new Date();
+        maxDate.setDate(today.getDate() + 31);
+        const maxDateFormatted = maxDate.toISOString().split('T')[0];
+        
+        startDateInput.setAttribute('min', todayFormatted);
+        startDateInput.setAttribute('max', maxDateFormatted);
+        
+        startDateInput.addEventListener('change', function() {
+            endDateInput.setAttribute('min', this.value);
+            endDateInput.setAttribute('max', maxDateFormatted);
+        });
+        
+        document.getElementById('rentalForm').addEventListener('submit', function(e) {
+            const startDate = new Date(startDateInput.value);
+            const endDate = new Date(endDateInput.value);
+            
+            if (startDate < today) {
+                e.preventDefault();
+                alert('Start date cannot be in the past');
+                return false;
+            }
+            
+            if (startDate > maxDate) {
+                e.preventDefault();
+                alert('Dates must be within the next 7 days');
+                return false;
+            }
+            
+            if (endDate < startDate) {
+                e.preventDefault();
+                alert('End date cannot be before start date');
+                return false;
+            }
+        });
+    });
 </script>
 
 <?php include './includes/footer.php'; ?>
