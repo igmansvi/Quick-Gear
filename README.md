@@ -1,4 +1,4 @@
-# Quick Gear - Project Documentation
+# Quick Gear - Project Documentation {Migrating to MERN stack...}
 
 ## Overview
 
